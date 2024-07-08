@@ -1,0 +1,13 @@
+# Ignore environment files
+.env
+
+# Ignore Node.js dependencies
+node_modules/
+
+
+newton-school-server/config/config.env
+
+
+mewton-school/node_modules/
+newton-school-server/node_modules/
+
