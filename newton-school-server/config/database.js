@@ -12,10 +12,6 @@ export const connectDB = async () => {
 
 
 
-// password below
-// k7dwd5nrcNzFMyOW
-
-
 
 
 
