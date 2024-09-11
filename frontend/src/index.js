@@ -1,4 +1,3 @@
-import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import App from './App';
@@ -15,7 +14,6 @@ root.render(
   <StrictMode>     
     <ReduxProvider store={store}>
     <ChakraProvider theme={theme} >
-      <ColorModeScript />
       <App />
     </ChakraProvider>
     </ReduxProvider>
