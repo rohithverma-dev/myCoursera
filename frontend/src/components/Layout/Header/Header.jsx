@@ -1,5 +1,4 @@
 import React from 'react'
-import { ColorModeSwitcher } from '../../../ColorModeSwitcher';
 import {
   Button,
   Drawer,
@@ -23,22 +22,17 @@ const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
 
 
 
-//              agar isAuthenticated nhi aayi to byDefault False mann lenge
 const Header = ({isAuthenticated=false , user}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch()
 
   const logoutHandler = () => {
-    // console.log("logout");
     onClose();   
     dispatch(logout());
   };   
-  // const user = {
-  //   role:'admin'
-  // }
+
   return (
     <>
-      <ColorModeSwitcher />
       <Button
         onClick={onOpen}
         colorScheme={'yellow'}
