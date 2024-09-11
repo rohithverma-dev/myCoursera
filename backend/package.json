@@ -1,12 +1,12 @@
 {
-  "name": "newton-school-server",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,9 @@
     "nodemailer": "^6.9.2",
     "razorpay": "^2.8.6",
     "validator": "^13.9.0"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
 
