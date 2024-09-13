@@ -1,0 +1,21 @@
+#small-loader {
+    width: 15px;
+    height: 15px;
+    border-width: 2px ;
+    border-style:  solid; 
+    border-color: red ;
+    border-top: 2px solid transparent !important;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 5px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

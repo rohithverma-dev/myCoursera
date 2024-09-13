@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,7 +9,8 @@
 
 .button-lg {
     padding: 10px 24px;
-    font-size: 18px; /* equivalent to lg size */
+    font-size: 18px;
+    /* equivalent to lg size */
     background-color: #ECC94B;
     color: black;
     border: none;
@@ -20,69 +21,291 @@
 }
 
 .button-lg:hover {
-    background-color: #D69E2E; /* Darker shade of yellow */
+    background-color: #D69E2E;
+    /* Darker shade of yellow */
 }
+
+
+.button-md {
+    padding: 7px 14px;
+    font-size: 18px;
+    /* equivalent to lg size */
+    background-color: #ECC94B;
+    color: black;
+    border: none;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 16px 0;
+}
+
+.button-md:hover {
+    background-color: #D69E2E;
+    /* Darker shade of yellow */
+}
+
+
+.ghost {
+    font-size: 16px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #B7791F;
+    background-color: white;
+}
+
+.ghost:hover {
+    background-color: #FFFFF0;
+}
+
 
 .custom-heading-2xl {
-    font-size: 3rem; /* 2xl corresponds to 3rem */
-    font-weight: bolder; /* Chakra's Heading default */
-    line-height: 1.2; /* Same as Chakra UI's default line-height for Heading */
+    font-size: 3rem;
+    /* 2xl corresponds to 3rem */
+    font-weight: bolder;
+    /* Chakra's Heading default */
+    line-height: 1.2;
+    /* Same as Chakra UI's default line-height for Heading */
 }
 
+.custom-heading-xl {
+    font-size: 1.875rem;
+    /* Chakra UI's xl size corresponds to 1.875rem */
+    font-size: 2.25rem;
+    /* Chakra UI's xl size corresponds to 1.875rem */
+    font-weight: bold;
+    /* Chakra UI's Heading default font weight for xl */
+    line-height: 1.2;
+    /* Same as Chakra UI's default line-height for Heading */
+    text-align: left;
+}
+
+
+
 .custom-text-2xl {
-    font-size: 1.5rem; /* equivalent to 2xl  */
+    font-size: 1.5rem;
+    /* equivalent to 2xl  */
+    font-family: cursive;
+    text-align: left;
+}
+
+.custom-text-xl {
+    font-size: 1.15rem;
+    /* equivalent to xl */
     font-family: cursive;
     text-align: left;
 }
 
 .vstack {
-    width: 100%; /* Full width */
+    width: 100%;
+    /* Full width */
     display: flex;
-    flex-direction: column; /* Vertical stacking */
-    align-items: flex-end; 
-    gap: 2rem; /* 8 spacing = 2rem gap between elements */
+    flex-direction: column;
+    /* Vertical stacking */
+    align-items: flex-end;
+    gap: 2rem;
+    /* 8 spacing = 2rem gap between elements */
+}
+
+.custom-vstack {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Full height */
+    justify-content: center;
+    gap: 4rem;
+    /* 16 * 4px = 64px, equivalent to Chakra's spacing='16' */
 }
 
 .stack {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     height: 100%;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    gap: 1rem; /* Default spacing for small screens (16px) */
+    gap: 1rem;
+    /* Default spacing for small screens (16px) */
 }
 
 .vector-graphics {
-    width: auto; 
+    width: auto;
     height: auto;
     max-width: 35vmax;
-    object-fit: contain; 
+    object-fit: contain;
     margin: 40px 0;
 }
 
+.about-container {
+    max-width: 1200px;
+    /* Equivalent to Chakra's container.lg */
+    padding: 4rem 8rem;
+    /* Equivalent to padding="16" in Chakra UI */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Equivalent to Chakra's lg shadow */
+    margin: 0 auto;
+    /* Center align horizontally */
+}
+
+.custom-input {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.custom-input:focus {
+    border: 2px solid #e2e8f0;
+    border-color: #ECC94B;
+    box-shadow: 0 0 0 2px rgba(236, 201, 75, 0.5);
+}
+
+.custom-input::placeholder {
+    color: #798492;
+}
+
+.custom-input:required {
+    box-shadow: none;
+}
+
+
+.custom-button-link-yellow {
+    background: none;
+    border: none;
+    font-weight: bold;
+    /* Equivalent to 'yellow' in Chakra UI */
+    color: #D69E2E;
+    /* Darker shade for hover effect */
+    color: #efc839;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.custom-button-link-yellow:hover {
+    text-decoration: underline;
+}
+
+.custom-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.custom-textarea:focus {
+    border-color: #e9c02f;
+    border-width: 2px;
+}
+
+
+.custom-container {
+    height: 95vh;
+    /* Set the height to 95% of the viewport height */
+    width: 50%;
+    /* Full width */
+    margin: 0 auto;
+    /* Center container horizontally */
+    padding: 0 16px;
+    /* Optional: Padding for the content */
+    box-sizing: border-box;
+}
+
+
+/* ---- file Upload ----  ---- file Upload ---- */
+/* ---- file Upload ----  ---- file Upload ---- */
+/* ---- file Upload ----  ---- file Upload ---- */
+
+.file-upload {
+    cursor: pointer;
+    width: 110%;
+    height: 100%;
+    color: #ECC94B;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    /* Outer border */
+    outline: 2px solid #e2e8f0;
+    /* Additional border */
+    outline-offset: -2px;
+    /* Adjust spacing between the border and content */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.file-upload:hover {
+    color: white;
+    background-color: #ECC94B;
+}
+
+.file-upload::-webkit-file-upload-button {
+    cursor: pointer;
+    width: 110%;
+    height: 100%;
+    color: #ECC94B;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    /* Outer border */
+    outline: 2px solid #e2e8f0;
+    /* Additional border */
+    outline-offset: -2px;
+    /* Adjust spacing between the border and content */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.file-upload:hover::-webkit-file-upload-button {
+    color: white;
+    background-color: #ECC94B;
+}
+
+
+/* ---- file Upload ----  ---- file Upload ---- */
+/* ---- file Upload ----  ---- file Upload ---- */
+/* ---- file Upload ----  ---- file Upload ---- */
+
+
+
 @media screen and (max-width: 600px) {
-    .custom-text {
+    .about-container {
+        padding: 4rem;
+    }
+
+    .custom-heading-xl {
         text-align: center;
     }
-    .vstack {
-        align-items: center; 
+
+    .custom-text-2xl {
+        text-align: center;
     }
+
+    .custom-text-xl {
+        text-align: center;
+    }
+
+    .vstack {
+        align-items: center;
+    }
+
     .stack {
-        flex-direction: column; 
-        justify-content: space-between; 
-        gap: 1.125rem; /* Spacing for larger screens (18px) */
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1.125rem;
+        /* Spacing for larger screens (18px) */
     }
 }
 
 @media (min-width: 768px) {
     .stack {
-        gap: 1.25rem; /* Spacing for even larger screens (20px) */
+        gap: 1.25rem;
+        /* Spacing for even larger screens (20px) */
     }
 }
 
 @media (min-width: 1200px) {
     .stack {
-        gap: 3.5rem; /* Spacing for extra large screens (56px) */
+        gap: 3.5rem;
+        /* Spacing for extra large screens (56px) */
     }
 }
-

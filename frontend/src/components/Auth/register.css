@@ -1,0 +1,17 @@
+.register-avatar {
+    border-radius: 50%;
+    /* Circular avatar */
+    width: 10rem;
+    /* Equivalent to boxSize='40' (10rem or 160px) */
+    height: 10rem;
+    object-fit: cover;
+}
+
+
+@media (min-width: 600px) {
+    .register-avatar {
+        width: 12rem;
+        /* Equivalent to boxSize='48' (12rem or 192px) */
+        height: 12rem;
+    }
+}

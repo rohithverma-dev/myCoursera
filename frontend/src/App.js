@@ -38,8 +38,6 @@ import Loader from './components/Layout/Loader/Loader.jsx';
 
 
 
-
-
 function App() {
   const dispatch = useDispatch()
   window.addEventListener('contextmenu', e => {

@@ -1,25 +1,24 @@
-import { Button, Container, Heading, Input, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { forgetPassword } from '../../redux/actions/profile';
 import { useDispatch, useSelector } from 'react-redux';
 
+import './forgotpassword.css';
+import Loader from '../../CustomComponents/Loader/Loader';
 
 const ForgetPassword = () => {
   const { loading, message, error } = useSelector(state => state.profile);
 
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
 
   const submitHandler = e => {
     e.preventDefault();
-    console.log("forgot password Submitt handler");
+    console.log('forgot password Submitt handler');
     dispatch(forgetPassword(email));
   };
 
-
- useEffect(() => {
+  useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch({ type: 'clearError' });
@@ -31,37 +30,29 @@ const ForgetPassword = () => {
   }, [dispatch, error, message]);
 
   return (
-    <Container py={'16'} h="90vh">
+    <div className='forgotpassword-container'>
       <form onSubmit={submitHandler}>
-        <Heading
-          children="Forget Password"
-          my="16"
-          textTransform={'uppercase'}
-          textAlign={['center', 'left']}
-        />
-
-
-        <VStack spacing={'8'}>
-          <Input
-            required
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+        <h1 class="forgotpassword-custom-heading">Forget Password</h1>
+        <div className='forgotpassword-vstack'>
+          <input
+            className="forgotpassword-custom-input"
+            type="email"
             placeholder="abc@gmail.com"
-            type={'email'}
-            focusBorderColor="yellow.500"
+            onChange={e => setEmail(e.target.value)}
+            required
           />
 
-          <Button
-            isLoading={loading}
+          <button
+            className="forgotpassword-button"
             type="submit"
-            w={'full'}
-            colorScheme="yellow"
+            style={{ width: '100%', opacity: loading ? 0.7 : 1 }}
+            disabled={loading ? true : false}
           >
-            Send Reset Link
-          </Button>
-        </VStack>
+            {loading ? <Loader color="white" /> : ' Send Reset Link'}
+          </button>
+        </div>
       </form>
-    </Container>
+    </div>
   );
 };
 

@@ -1,73 +1,60 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import './about.css';
 import React from 'react';
 import { RiSecurePaymentFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
+const Founder = ( {imgsrc }  ) => (
 
-const Founder = () => (
-  <Stack direction={['column', 'row']} spacing={['4', '16']} padding={'8'}>
-    <VStack>
-      <Avatar
-        src="https://media.licdn.com/dms/image/D4D35AQGTaP-U6Kq1jA/profile-framedphoto-shrink_400_400/0/1670928622272?e=1687003200&v=beta&t=chZ4DfViG9S03byT66y7W7RM8nVWb42vwWCA79BV6HI"
-        boxSize={['40', '48']}
-      />
-      <Text children="Co-Founder" opacity={0.7} />
-    </VStack>
+  <div className='about-founder-stack' >
 
-    <VStack justifyContent={'center'} alignItems={['center', 'flex-start']}>    
-      <Heading children="Rohit Verma " size={['md', 'xl']} />
-      <Text
-        textAlign={['center', 'left']}
-        children={`Hi, I am a full-stack developer .
-      Our mission is to provide quality content at reasonable price.`}
+
+    <div style={{display:'flex' , flexDirection:'column' , justifyContent:'center' , alignItems:'center' }} >
+      <img className="about-avatar"
+        src={ imgsrc ? imgsrc : "./Profile copy.png" }
+        alt="profile pic" 
       />
-    </VStack>
-  </Stack>
+      <p style={{ opacity: '0.5' , textAlign:'center' }} className="custom-text-xs">
+        Co-Founder
+      </p>
+    </div>
+
+    <div className='vstack' style={{ margin:5 , alignItems:'flex-start' ,    }}  >
+      <h1 className='custom-heading-xl' style={{paddingLeft:'15px' , whiteSpace:'nowrap' , fontSize:'1.875rem' }}  >Rohit Verma</h1>
+      <p className="custom-text-xl">
+        Hi, I am a full-stack developer . Our mission is to provide quality
+        content at reasonable price.
+      </p>
+    </div>
+
+
+  </div>
+
+
 );
-
-
-
 
 const About = () => {
   return (
-    <Container maxW={'container.lg'} padding="16" boxShadow={'lg'}>
-      <Heading children="About Us" textAlign={['center', 'left']} />
-      <Founder />
-      <Stack m="8" direction={['column', 'row']} alignItems="center">
-        <Text fontFamily={'cursive'} m="8" textAlign={['center', 'left']}>
+    <div className="about-container">
+      <h1 className="custom-heading-xl">About Us</h1>
+      <Founder imgsrc={"https://res.cloudinary.com/daucaeml9/image/upload/v1720418876/avatars/e6m53mhctm00z7n4ech6.jpg"} />
+      <div className="stack" style={{ margin: '8px' }}>
+        <p className="custom-text-xl" style={{ margin: '8px' }}>
           We are a video streaming platform with some premium courses available
           only for premium users.
-        </Text>
+        </p>
 
         <Link to="/subscribe">
-          <Button variant={'ghost'} colorScheme="yellow">
-            Checkout Our Plan
-          </Button>
+          <button className="button-lg ghost">Checkout Our Plan</button>
         </Link>
-      </Stack>
+      </div>
 
-
-
-      <HStack my="4" p={'4'}>
+      <div className="about-hstack" my="4" p={'4'}>
         <RiSecurePaymentFill />
-        <Heading
-          size={'xs'}
-          fontFamily="sans-serif"
-          textTransform={'uppercase'}
-          children={'Payment is secured by Razorpay'}
-        />
-      </HStack>
-    </Container>
+        <h1 className="about-custom-heading-xs">
+          Payment is secured by Razorpay
+        </h1>
+      </div>
+    </div>
   );
 };
 

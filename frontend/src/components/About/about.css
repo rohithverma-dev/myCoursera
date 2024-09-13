@@ -1,0 +1,85 @@
+.about-custom-heading-xs {
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-size: 0.75rem;
+    /* Chakra UI's xs size */
+    font-weight: bold;
+    /* Chakra UI default font weight for headings */
+    line-height: 1.2;
+    /* Adjust as needed */
+}
+
+.custom-text-xs {
+    font-size: 1rem;
+    /* Chakra UI's xs size */
+    font-family: cursive;
+    text-align: left;
+}
+
+
+.about-hstack {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+    padding: 4px;
+}
+
+
+.about-stack {
+    display: flex;
+    flex-direction: row;
+    /* Default direction */
+    flex-wrap: nowrap;
+    gap: 4rem;
+    /* Default spacing equivalent to spacing='4' */
+    padding: 2rem;
+    /* Padding equivalent to padding='8' */
+    width: 100%;
+    /* Optional, for full-width container */
+}
+
+.about-avatar {
+    border-radius: 50%;
+    /* Circular avatar */
+    width: 10rem;
+    /* Equivalent to boxSize='40' (10rem or 160px) */
+    height: 10rem;
+    object-fit: cover;
+}
+
+
+.about-founder-stack {
+    display: flex;
+    flex-direction: column;
+    /* Column direction on smaller screens */
+    gap: 1rem;
+    /* 4 spacing (1rem = 16px) on smaller screens */
+    padding: 2rem;
+    /* 8 padding = 2rem */
+
+    /* Responsive design */
+    @media (min-width: 768px) {
+        flex-direction: row;
+        /* Change to row direction for larger screens */
+        gap: 4rem;
+        /* 16 spacing = 4rem on larger screens */
+    }
+}
+
+
+
+@media (min-width: 600px) {
+    .about-stack {
+        flex-direction: column;
+        /* Change direction for larger screens */
+        gap: 1rem;
+        /* Spacing equivalent to spacing='16' */
+    }
+
+    .about-avatar {
+        width: 12rem;
+        /* Equivalent to boxSize='48' (12rem or 192px) */
+        height: 12rem;
+    }
+}

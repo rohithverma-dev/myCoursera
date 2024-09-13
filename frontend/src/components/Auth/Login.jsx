@@ -1,32 +1,22 @@
-import {
-  Box,
-  Button,
-  Container,
-  FormLabel,
-  Heading,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { login } from '../../redux/actions/user';
 import toast from 'react-hot-toast';
-
+import Loader from '../../CustomComponents/Loader/Loader';
 
 const Login = () => {
   const { loading, message, error } = useSelector(state => state.profile);
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
 
   const submitHandler = e => {
-    console.log("form submitted successfully");
+    console.log('form submitted successfully');
     e.preventDefault();
     dispatch(login(email, password));
-
   };
 
   useEffect(() => {
@@ -41,67 +31,71 @@ const Login = () => {
   }, [dispatch, error, message]);
 
   return (
-    <Container h={'95vh'}>
-      <VStack h={'full'} justifyContent="center" spacing={'16'}>
-        <Heading children={'Welcome to CourseBundler'} />
+    <div className='custom-container'  >
+      <div className='custom-vstack' >
+        <h1 style={{textAlign:'center'}} className='custom-heading-xl'> Welcome to MyCoursera </h1>
+        <form onSubmit={submitHandler} style={{ width: '100%' }}>
+          <div style={{margin:'16px 0'}}>
+            <label style={{ fontWeight: '500' }} htmlFor="email">
+              Email Address
+            </label>
 
-        <form                               // HTML form / not chakra 
-        onSubmit={submitHandler}       
-        style={{ width: '100%' }}>    
-          <Box my={'4'}>
-            <FormLabel                       //  chakra Ui  
-            htmlFor="email"                 
-            children="Email Address" />   
-            <Input
+            <input
               required
+              className="custom-input"
               id="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="abc@gmail.com"
-              type={'email'}
-              focusBorderColor="yellow.500"
+              type="email"
             />
-          </Box>
+          </div>
 
-          <Box my={'4'}>
-            <FormLabel htmlFor="password" children="Password" />
-            <Input
+          <div style={{margin:'16px 0'}}>
+            <label style={{ fontWeight: '500' }} htmlFor="password">
+              Password
+            </label>
+
+            <input
               required
+              className="custom-input"
               id="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="Enter Your Password"
-              type={'password'}
-              focusBorderColor="yellow.500"
+              type="password"
             />
-          </Box>
+          </div>
 
-          <Box>
+          <div style={{margin:'16px 0'}}>
             <Link to="/forgetpassword">
-              <Button fontSize={'sm'} variant="link">
+              <button style={{color:'#8a97a7' , fontSize:'0.75rem' }} className='custom-button-link-yellow'>
                 Forget Password?
-              </Button>
+              </button>
             </Link>
-          </Box>
-
-          <Button my="4" colorScheme={'yellow'} type="submit">
-            Login
-          </Button>
+          </div>
 
           
-          <Box my="4">
-            New User? 
-            <Link to="/register">{" "}
-              <Button colorScheme={'yellow'} variant="link">
+          <button
+            disabled={loading ? true : false}
+            className="button-md"
+            type="submit"
+          >
+            {loading ? <Loader /> : 'Login'}
+          </button>
+
+          <div style={{margin:'16px 0'}}>
+            New User?
+            <Link to="/register">
+              <button className='custom-button-link-yellow ' >
                 Sign Up
-              </Button>{" "}
+              </button>
               here
             </Link>
-          </Box>
-        
+          </div>
         </form>
-      </VStack>
-    </Container>
+      </div>
+    </div>
   );
 };
 

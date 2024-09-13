@@ -1,17 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  FormLabel,
-  Heading,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { register } from '../../redux/actions/user';
+import Loader from '../../CustomComponents/Loader/Loader';
+import "./register.css"
 
 export const fileUploadCss = {
   cursor: 'pointer',
@@ -22,12 +14,9 @@ export const fileUploadCss = {
   color: '#ECC94B',
   backgroundColor: 'white',
 };
-const fileUploadStyle = {
-  '&::file-selector-button': fileUploadCss,
-};
 
 const Register = () => {
-  console.log("okay rohit repeat");
+  console.log('okay rohit repeat');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -46,9 +35,6 @@ const Register = () => {
     }
   };
 
-
-  
-
   const dispatch = useDispatch();
 
   const submitHandler = e => {
@@ -64,86 +50,96 @@ const Register = () => {
   };
 
   return (
-    <Container h={'95vh'}>
-      <VStack h={'full'} justifyContent="center" spacing={'16'}>
-        <Heading textTransform={'uppercase'} children={'Registration'} />
-
+    <div className='custom-container' >
+      <div className='custom-vstack' >
+        <h1 style={{textAlign:'center'}} className='custom-heading-xl'> REGISTRATION </h1>
         <form onSubmit={submitHandler} style={{ width: '100%' }}>
-          <Box my="4" display={'flex'} justifyContent="center">
-            <Avatar src={imagePrev} size={'2xl'} />
-          </Box>
-          <Box my={'4'}>
-            <FormLabel htmlFor="name" children="Name" />
-            <Input
+          <div style={{margin:'16px 0' , display:'flex' , justifyContent:'center' }} >
+            <img
+              className="register-avatar"
+              src={imagePrev ? imagePrev : './Profile copy.png'}
+              alt="profile pic"
+            />
+          </div>
+          <div style={{margin:'16px 0'}}>
+            <label style={{ fontWeight: '500' }} htmlFor="name">
+              Name
+            </label>
+            <input
               required
+              className="custom-input"
               id="name"
               value={name}
               onChange={e => setName(e.target.value)}
               placeholder="abc"
-              type={'text'}
-              focusBorderColor="yellow.500"
+              type="text"
             />
-          </Box>
+          </div>
 
-          <Box my={'4'}>
-            <FormLabel htmlFor="email" children="Email Address" />
-            <Input
+          <div style={{margin:'16px 0'}}>
+            <label style={{ fontWeight: '500' }} htmlFor="email">
+              Email Address
+            </label>
+            <input
               required
+              className="custom-input"
               id="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="abc@gmail.com"
-              type={'email'}
-              focusBorderColor="yellow.500"
+              type="email"
             />
-          </Box>
+          </div>
 
-          <Box my={'4'}>
-            <FormLabel htmlFor="password" children="Password" />
-            <Input
+          <div style={{margin:'16px 0'}}>
+            <label style={{ fontWeight: '500' }} htmlFor="password">
+              Password
+            </label>
+            <input
               required
+              className="custom-input"
               id="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="Enter Your Password"
-              type={'password'}
-              focusBorderColor="yellow.500"
+              type="password"
             />
-          </Box>
+          </div>
 
-          <Box my={'4'}>
-            <FormLabel htmlFor="chooseAvatar" children="Choose Avatar" />
-            <Input
+          <div style={{margin:'16px 0'}}>
+            <label style={{ fontWeight: '500' }} htmlFor="chooseAvatar">
+              Choose Avatar
+            </label>
+
+            <input
               accept="image/*"
               required
               id="chooseAvatar"
-              type={'file'}
-              focusBorderColor="yellow.500"
-              css={fileUploadStyle}
+              type="file"
+              className="file-upload"
               onChange={changeImageHandler}
             />
-          </Box>    
+          </div>
 
-          <Button my="4" colorScheme={'yellow'} type="submit">
+          <button style={{ width: '7rem' }} className="button-md" type="submit">
             Sign Up
-          </Button>
+          </button>
 
-          <Box my="4">
+          <div style={{margin:'16px 0'}}>
             Already Signed Up?{' '}
             <Link to="/login">
-              <Button colorScheme={'yellow'} variant="link">
+              <button className='custom-button-link-yellow'>
                 Login
-              </Button>{' '}
+              </button>
               here
             </Link>
-          </Box>
+          </div>
+          <br />
+          <br />
+          <br />
         </form>
-
-
-
-
-      </VStack>
-    </Container>
+      </div>
+    </div>
   );
 };
 
