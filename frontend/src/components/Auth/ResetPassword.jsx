@@ -43,7 +43,6 @@ const ResetPassword = () => {
           textAlign={['center', 'left']}
         />
 
-
         <VStack spacing={'8'}>
           <Input
             required

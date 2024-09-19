@@ -1,28 +1,22 @@
 import {
-  Box,
-  Button,
-  Grid,
-  Heading,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
-  Stack,
-  Text,
-  VStack,
 } from '@chakra-ui/react';
 import React from 'react';
 import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
-import { fileUploadCss } from '../../Auth/Register';
+import './coursemodal.css';
+import { RxCross1 } from 'react-icons/rx';
+
+import Loader from '../../../CustomComponents/Loader/Loader';
 
 const CourseModal = ({
-  isOpen,
-  onClose,
+  modal,
+  setModal,
   id,
   deleteButtonHandler,
   addLectureHandler,
@@ -40,14 +34,13 @@ const CourseModal = ({
     const file = e.target.files[0];
     const reader = new FileReader();
     if (file) {
-    
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
 
-    reader.onloadend = () => {
-      setVideoPrev(reader.result);
-      setVideo(file);
-    };
-  }
+      reader.onloadend = () => {
+        setVideoPrev(reader.result);
+        setVideo(file);
+      };
+    }
   };
 
   const handleClose = () => {
@@ -55,30 +48,81 @@ const CourseModal = ({
     setDescription('');
     setVideo('');
     setVideoPrev('');
-    onClose();
+    // onClose();    // wait...
+    setModal(false)
   };
+
   return (
-    <Modal
-      isOpen={isOpen}
-      size="full"
-      onClose={handleClose}
-      scrollBehavior="outside"
+    <div
+      style={{ position: 'fixed', top: 0, left: 0, bottom: 0, right: 0 }}
+      // isOpen={isOpen}
+      // size="full"
+      // onClose={handleClose}
+      // scrollBehavior="outside"
     >
-      <ModalOverlay />
+      {/* <ModalOverlay /> */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          bottom: '0',
+          right: '0',
+          overflow: 'auto',
+          backgroundColor: 'white',
+        }}
+      >
+        <p
+          className="modal-heading"
+          style={{
+            margin: '0',
+            padding: '25px 25px',
+            paddingBottom: '0',
+            fontSize: '1.25rem',
+            fontWeight: '501',
+            textTransform: 'none',
+          }}
+        >
+          {courseTitle}
+        </p>
 
-      <ModalContent>
-        <ModalHeader>{courseTitle}</ModalHeader>
-        <ModalCloseButton />
+        <div className="modal-close-button" >
+          <RxCross1
+            onClick={() => setModal(false)}
+          />
+        </div>
 
-        <ModalBody p="16">
-          <Grid templateColumns={['1fr', '3fr 1fr']}>
-            <Box px={['0', '16']}>
-              <Box my="5">
-                <Heading children={courseTitle} />
-                <Heading children={`#${id}`} size="sm" opacity={0.4} />
-              </Box>
+        <div style={{ padding: '64px' }}>
+          <div className="modal-grid" templateColumns={['1fr', '3fr 1fr']}>
+            <div className="modal-box">
+              <div style={{ margin: '20px 0' }}>
+                <h1
+                  className="modal-heading"
+                  style={{ textTransform: 'none', margin: '0' }}
+                >
+                  {courseTitle}
+                </h1>
+                <h1
+                  className="modal-text"
+                  style={{
+                    opacity: '0.45',
+                    marginTop: '0',
+                    marginBottom: '40px',
+                  }}
+                >{`#${id}`}</h1>
+              </div>
 
-              <Heading children={'Lectures'} size="lg" />
+              <h1
+                className="modal-heading"
+                style={{
+                  fontSize: '1.75rem',
+                  textTransform: 'none',
+                  marginTop: '0',
+                  marginBottom: '30px',
+                }}
+              >
+                {'Lectures'}
+              </h1>
 
               {lectures.map((item, i) => (
                 <VideoCard
@@ -91,7 +135,6 @@ const CourseModal = ({
                   deleteButtonHandler={deleteButtonHandler}
                   loading={loading}
 
-                  
                   // key={i}
                   // title="React Intro"
                   // description={"this is a intro lecture , whereyou will know the basics of react "}
@@ -99,48 +142,54 @@ const CourseModal = ({
                   // lectureId="bbkgt"
                   // courseId={id}
                   // deleteButtonHandler={deleteButtonHandler}
-                
                 />
               ))}
-            </Box>
+            </div>
 
-            <Box>
+            <div>
               <form
                 onSubmit={e =>
                   addLectureHandler(e, id, title, description, video)
                 }
               >
-                <VStack spacing={'4'}>
-                  <Heading
-                    children="Add Lecture"
-                    size={'md'}
-                    textTransform="uppercase"
-                  />
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <h1
+                    style={{ fontSize: '1.25rem', margin: '0' }}
+                    className="modal-heading"
+                  >
+                    Add Lecture
+                  </h1>
 
-                  <Input
-                    focusBorderColor="purple.300"
+                  <input
+                    required
                     placeholder="Title"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
+                    type="text"
+                    className="createcourse-custom-input"
                   />
-                  <Input
-                    focusBorderColor="purple.300"
+
+                  <input
+                    required
                     placeholder="Description"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
+                    type="text"
+                    className="createcourse-custom-input"
                   />
 
-                  <Input
+                  <input
                     accept="video/mp4"
                     required
                     type={'file'}
-                    focusBorderColor="purple.300"
-                    css={{
-                      '&::file-selector-button': {
-                        ...fileUploadCss,
-                        color: 'purple',
-                      },
-                    }}
+                    className="file-upload"
                     onChange={changeVideoHandler}
                   />
 
@@ -152,25 +201,38 @@ const CourseModal = ({
                     ></video>
                   )}
 
-                  <Button
-                    isLoading={loading}
-                    w="full"
-                    colorScheme={'purple'}
+                  <button
+                    disabled={loading ? true : false}
+                    style={{ width: '100%' }}
+                    className="createcourse-button-md"
                     type="submit"
                   >
-                    Upload
-                  </Button>
-                </VStack>
+                    {loading ? <Loader /> : 'Upload'}
+                  </button>
+                </div>
               </form>
-            </Box>
-          </Grid>
-        </ModalBody>
+            </div>
+          </div>
+        </div>
 
-        <ModalFooter>
-          <Button onClick={handleClose}>Close</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        <div
+          style={{
+            padding: '16px 24px',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
+          <button
+            className="modal-button-lg"
+            style={{ fontWeight: '500', color: 'black' }}
+            onClick={() => setModal(false)}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -186,26 +248,41 @@ function VideoCard({
   loading,
 }) {
   return (
-    <Stack
-      direction={['column', 'row']}
-      my="8"
-      borderRadius={'lg'}
-      boxShadow={'0 0 10px rgba(107,70,193,0.5)'}
-      justifyContent={['flex-start', 'space-between']}
-      p={['4', '8']}
+    <div
+      className="videocard-div"
+      style={{
+        margin: '32px',
+        boxShadow: '0 0 10px rgba(107,70,193,0.5)',
+      }}
     >
-      <Box>
-        <Heading size={'sm'} children={`#${num} ${title}`} />
-        <Text children={description} />
-      </Box>
+      <div>
+        <h1
+          style={{
+            fontWeight: 'bolder',
+            textTransform: 'uppercase',
+            margin: 0,
+          }}
+          className="modal-text"
+        >
+          {`#${num} ${title}`}
+        </h1>
+        <p style={{ margin: 0, fontWeight: 'normal' }} className="modal-text">
+          {description}
+        </p>
+      </div>
 
-      <Button
-        isLoading={loading}
-        color={'purple.600'}
+      <button
+        disabled={loading ? true : false}
+        className="modal-button-lg"
         onClick={() => deleteButtonHandler(courseId, lectureId)}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
-        <RiDeleteBin7Fill />
-      </Button>
-    </Stack>
+            {loading ? <Loader color="#7442E9" /> : <RiDeleteBin7Fill />}
+      </button>
+    </div>
   );
 }

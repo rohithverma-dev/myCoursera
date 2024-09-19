@@ -1,12 +1,3 @@
-import {
-  Box,
-  Grid,
-  Heading,
-  HStack,
-  Progress,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri';
 import cursor from '../../../assets/images/cursor.png';
@@ -15,48 +6,103 @@ import { DoughnutChart, LineChart } from './Chart';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDashboardStats } from '../../../redux/actions/admin';
 import Loader from '../../Layout/Loader/Loader';
+import './dashboard.css';
 
 const Databox = ({ title, qty, qtyPercentage, profit }) => (
-  <Box
-    w={['full', '20%']}
-    boxShadow={'-2px 0 10px rgba(107,70,193,0.5)'}
-    p="8"
-    borderRadius={'lg'}
-  >
-    <Text children={title} />
-
-    <HStack spacing={'6'}>
-      <Text fontSize={'2xl'} fontWeight="bold" children={qty} />
-
-      <HStack>
-        <Text children={`${qtyPercentage}%`} />
+  <div className="dashboard-databox">
+    <p style={{ textAlign: 'left' }} className="custom-text-xl">
+      {title}
+    </p>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '24px',
+      }}
+    >
+      <p className="custom-text-2xl">{qty}</p>
+      <div style={{ display: 'flex' }}>
+        <p
+          style={{ fontWeight: 100 }}
+          className="custom-text-xl"
+        >{`${qtyPercentage}%`}</p>
         {profit ? (
           <RiArrowUpLine color="green" />
         ) : (
           <RiArrowDownLine color="red" />
         )}
-      </HStack>
-    </HStack>
-    <Text opacity={0.6} children={'Since Last Month'} />
-  </Box>
+      </div>
+    </div>
+    <p
+      style={{ opacity: '0.6', fontSize: '0.85rem', textAlign: 'left' }}
+      className="custom-text-xl"
+    >
+      {'Since Last Month'}
+    </p>
+  </div>
 );
 
+const Progress = ({ value = 0, colorScheme = 'purple', width = '100%' }) => {
+  const colors = {
+    purple: {
+      background: '#E9D8FD',  // Light purple
+      fill: '#9B6CDB'         // Darker purple
+    },
+  };
+
+  const { background, fill } = colors[colorScheme] || colors.purple;
+
+  return (
+    <div
+      style={{
+        width: width,
+        backgroundColor: background,
+        borderRadius: '4px',
+        overflow: 'hidden',
+        position: 'relative'
+      }}
+    >
+      <div
+        style={{
+          width: `${value}%`,
+          height: '8px',  // Adjust height as needed
+          backgroundColor: fill,
+          transition: 'width 0.3s ease'
+        }}
+      />
+    </div>
+  );
+};
+
 const Bar = ({ title, value, profit }) => (
-  <Box py="4" px={['0', '20']}>
-    <Heading size="sm" children={title} mb="2" />
+  <div className="dashboard-bar">
+    <h1
+      style={{ fontSize: '1rem', marginBottom: '8px' }}
+      className="custom-heading-xl"
+    >
+      {title}
+    </h1>
 
-    <HStack w="full" alignItems={'center'}>
-      <Text children={profit ? '0%' : `-${value}%`} />
-
-      <Progress w="full" value={profit ? value : 0} colorScheme="purple" />
-      <Text children={`${value > 100 ? value : 100}%`} />
-    </HStack>
-  </Box>
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <p style={{ textAlign: 'left', opacity: 0.7 }} className="custom-text-xl">
+        {profit ? '0%' : `-${value}%`}
+      </p>
+      <Progress value={profit ? value : 0} colorScheme="purple" />
+      <p style={{ textAlign: 'left', opacity: 0.7 }} className="custom-text-xl">
+        {`${value > 100 ? value : 100}%`}
+      </p>
+    </div>
+  </div>
 );
 
 const Dashboard = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     loading,
     stats,
@@ -72,138 +118,160 @@ const Dashboard = () => {
   } = useSelector(state => state.admin);
 
   useEffect(() => {
+    dispatch(getDashboardStats());
+  }, [dispatch]);
 
-    dispatch(getDashboardStats())
-
-  }, [dispatch])
-  
-  
   return (
-    <Grid
-      css={{
-        cursor: `url(${cursor}), default`,
-      }}
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
+    <div
+      style={{cursor:`url(${cursor}), default`}}
+      className='dashboard-grid'
     >
+      {loading || !stats ? (
+        <Loader />
+      ) : (
+        <div
+          style={{
+            padding: '64px 0',
+            '@media (max-width: 600px)': {
+              padding: '64px 16px',
+            },
+          }}
+        >
+          <p
+            style={{ fontSize: '0.95rem', textAlign: 'center', opacity: '0.5' }}
+            className="custom-text-xl"
+          >
+            {`Last change was on ${
+              String(new Date(stats[11].createdAt)).split('G')[0]
+            }`}
+          </p>
 
-     {loading || !stats ? (<Loader/>):(
-       <Box boxSizing="border-box" py="16" px={['4', '0']}>
-       <Text
-         textAlign={'center'}
-         opacity={0.5}
-         children={`Last change was on ${
-           String(new Date(stats[11].createdAt)).split('G')[0]
-          //  String(new Date()).split('G')[0] 
-           }`}
-       />
+          <h1
+            style={{ marginLeft: '64px', marginBottom: '64px' }}
+            className="dashboard-h1"
+          >
+            Dashboard
+          </h1>
 
-       <Heading
-         children="Dashboard"
-         ml={['0', '16']}
-         mb="16"
-         textAlign={['center', 'left']}
-       />
+          <div className="dashboard-databox-parent">
+            <Databox
+              key={1}
+              title="Views"
+              qty={viewsCount}
+              qtyPercentage={viewsPercentage}
+              profit={viewsProfit}
+            />
+            <Databox
+              key={2}
+              title="Users"
+              qty={usersCount}
+              qtyPercentage={usersPercentage}
+              profit={usersProfit}
+            />
+            <Databox
+              key={3}
+              title="Subscription"
+              qty={subscriptionCount}
+              qtyPercentage={subscriptionPercentage}
+              profit={subscriptionProfit}
+            />
+          </div>
 
-       <Stack
-         direction={['column', 'row']}
-         minH="24"
-         justifyContent={'space-evenly'}
-       >
-         <Databox
-           title="Views"
-           qty={viewsCount}
-           qtyPercentage={viewsPercentage}
-           profit={viewsProfit}
-          //  qty={123}
-          //  qtyPercentage={30}
-          //  profit={true}
-         />
-         <Databox
-           title="Users"
-           qty={usersCount}
-           qtyPercentage={usersPercentage}
-           profit={usersProfit}
-          //  qty={23}
-          //  qtyPercentage={10}
-          //  profit={true}
-         />
-         <Databox
-           title="Subscription"
-           qty={subscriptionCount}
-           qtyPercentage={subscriptionPercentage}
-           profit={subscriptionProfit}
-          //  qty={52}
-          //  qtyPercentage={52}
-          //  profit={false}
-         />
-       </Stack>
+          <div
+            style={{
+              margin: '64px',
+              padding: '64px',
+              marginTop: '64px',
+              borderRadius: '12px',
+              boxShadow: '-2px 0 10px rgba(107,70,193,0.5)',
+              '@media (max-width: 600px)': {
+                padding: '0',
+                margin: '0',
+                marginTop: '16px',
+              },
+            }}
+          >
+            <h1
+              style={{
+                fontSize: '1.25rem',
+                marginLeft: '64px',
+                marginBottom: '64px',
+              }}
+              className="dashboard-h1"
+            >
+              Views Graph
+            </h1>
 
-       <Box
-         m={['0', '16']}
-         borderRadius="lg"
-         p={['0', '16']}
-         mt={['4', '16']}
-         boxShadow={'-2px 0 10px rgba(107,70,193,0.5)'}
-       >
-         <Heading
-           textAlign={['center', 'left']}
-           size="md"
-           children="Views Graph"
-           pt={['8', '0']}
-           ml={['0', '16']}
-         />
+            <LineChart views={stats.map(item => item.views)} />
+          </div>
 
-         <LineChart views={stats.map(item => item.views)} />
-         {/* <LineChart  /> */}
-       </Box>
+          <div className='dashboard-second-grid' >
+            <div style={{ padding: '16px' }}>
+              <h1
+                style={{
+                  fontSize: '1.25rem',
+                  margin: '32px 0',
+                  marginLeft: '64px',
+                }}
+                className="dashboard-h1"
+              >
+                Progress Bar
+              </h1>
 
-       <Grid templateColumns={['1fr', '2fr 1fr']}>
-         <Box p="4">
-           <Heading
-             textAlign={['center', 'left']}
-             size="md"
-             children="Progress Bar"
-             my="8"
-             ml={['0', '16']}
-           />
+              <div>
+                <Bar
+                  profit={viewsProfit}
+                  //  profit={true}
+                  title="Views"
+                  value={viewsPercentage}
+                  //  value={30}
+                />
+                <Bar
+                  profit={usersProfit}
+                  //  profit={true}
+                  title="Users"
+                  value={usersPercentage}
+                  //  value={10}
+                />
+                <Bar
+                  profit={subscriptionProfit}
+                  //  profit={false}
+                  title="Subscription"
+                  value={subscriptionPercentage}
+                  //  value={52}
+                />
+              </div>
+            </div>
 
-           <Box>
-             <Bar
-               profit={viewsProfit}
-              //  profit={true}
-               title="Views"
-               value={viewsPercentage}
-              //  value={30}
-             />
-             <Bar
-               profit={usersProfit}
-              //  profit={true}
-               title="Users"
-               value={usersPercentage}
-              //  value={10}
-             />
-             <Bar
-               profit={subscriptionProfit}
-              //  profit={false}
-               title="Subscription"
-               value={subscriptionPercentage}
-              //  value={52}
-             />
-           </Box>
-         </Box>
-
-         <Box p={['0', '16']} boxSizing="border-box" py="4">
-           <Heading textAlign={'center'} size="md" mb="4" children="Users" />
-           <DoughnutChart  users={[subscriptionCount, usersCount - subscriptionCount]}  />
-           {/* <DoughnutChart   /> */}
-         </Box>
-       </Grid>
-     </Box>
-     )}
+            <div
+              style={{
+                padding: '64px 16px',
+                '@media (max-width: 600px)': {
+                  padding: '0px',
+                },
+              }}
+            >
+              <h1
+                style={{
+                  fontSize: '1.25rem',
+                  marginBottom: '16px',
+                  textAlign: 'center',
+                }}
+                className="dashboard-h1"
+              >
+                Users
+              </h1>
+              <DoughnutChart
+                users={[subscriptionCount, usersCount - subscriptionCount]}
+              />
+              {/* <DoughnutChart   /> */}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Sidebar />
-    </Grid>
+    </div>
   );
 };
 

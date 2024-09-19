@@ -1,4 +1,3 @@
-import { Button, VStack } from '@chakra-ui/react';
 import React from 'react';
 import {
   RiAddCircleFill,
@@ -11,7 +10,15 @@ import { Link, useLocation } from 'react-router-dom';
 const Sidebar = () => {
   const location = useLocation();
   return (
-    <VStack spacing={'8'} p="16" boxShadow={'-2px 0 10px rgba(107,70,193,0.5)'}>
+    <div
+    style={{
+      display:'flex',
+      padding:'64px',
+      boxShadow:'-2px 0 10px rgba(107,70,193,0.5)',
+      gap:'32px',
+      flexDirection:'column',
+    }}
+    >
       <LinkButton
         Icon={RiDashboardFill}
         text="Dashboard"
@@ -36,7 +43,7 @@ const Sidebar = () => {
         url={'users'}
         active={location.pathname === '/admin/users'}
       />
-    </VStack>
+    </div>
   );
 };
 
@@ -45,14 +52,13 @@ export default Sidebar;
 function LinkButton({ url, Icon, text, active }) {
   return (
     <Link to={`/admin/${url}`}>
-      <Button
-        fontSize={'larger'}
-        variant="ghost"
-        colorScheme={active ? 'purple' : ''}
+      <button
+        className='admin-sidebar-button'
+        style={{ color:  active ? '#6B46C1' : '' }}
       >
         <Icon style={{ margin: '4px' }} />
         {text}
-      </Button>
+      </button>
     </Link>
   );
 }

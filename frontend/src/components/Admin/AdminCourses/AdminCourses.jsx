@@ -1,20 +1,6 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Heading,
-  HStack,
-  Image,
-  Table,
-  TableCaption,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  useDisclosure,
-} from '@chakra-ui/react';
+// import {
+//   useDisclosure,
+// } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
@@ -33,22 +19,25 @@ import {
 } from '../../../redux/actions/admin';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../../CustomComponents/Loader/Loader';
+import './admincourses.css';
 
 const AdminCourses = () => {
+  // const courses = [
+  //     {
+  //         _id:"aKAKBAKAKSBHKABCS",
+  //         title:"React Course",
+  //         category:"Web Development",
+  //         poster:{
+  //             url:"https://cdn.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg",
+  //         },
+  //         createdBy:"Rohit Verma",
+  //         views:123,
+  //         numOfVideos:12
+  //     }
+  // ]
 
-    // const courses = [
-    //     {
-    //         _id:"aKAKBAKAKSBHKABCS",
-    //         title:"React Course",
-    //         category:"Web Development",
-    //         poster:{
-    //             url:"https://cdn.pixabay.com/photo/2017/05/10/19/29/robot-2301646_1280.jpg",
-    //         },
-    //         createdBy:"Rohit Verma",
-    //         views:123,
-    //         numOfVideos:12
-    //     }
-    // ]
+  const [modal, setModal] = useState(false)
 
   const { courses, lectures } = useSelector(state => state.course);
 
@@ -56,17 +45,19 @@ const AdminCourses = () => {
 
   const dispatch = useDispatch();
 
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  // const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [courseId, setCourseId] = useState('');
   const [courseTitle, setCourseTitle] = useState('');
 
   const coureDetailsHandler = (courseId, title) => {
     dispatch(getCourseLectures(courseId));
-    onOpen();
+    // onOpen();   // wait...
+    setModal(true)
     setCourseId(courseId);
     setCourseTitle(title);
   };
+  
   const deleteButtonHandler = courseId => {
     console.log(courseId);
     dispatch(deleteCourse(courseId));
@@ -101,42 +92,35 @@ const AdminCourses = () => {
     }
 
     dispatch(getAllCourses());
-  }, [dispatch, error, message, onClose]);
+  // }, [dispatch, error, message, onClose]);  // wait...
+  }, [dispatch, error, message]);
 
   return (
-    <Grid
-      css={{
+    <div
+      className="courses-grid"
+      style={{
         cursor: `url(${cursor}), default`,
       }}
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
     >
-      <Box p={['0', '8']} overflowX="auto">
-        <Heading
-          textTransform={'uppercase'}
-          children="All Courses"
-          my="16"
-          textAlign={['center', 'left']}
-        />
+      <div className="courses-box" style={{ overflowX: 'auto' }}>
+        <h1 className="courses-heading">All Courses</h1>
 
-        <TableContainer w={['100vw', 'full']}>
-          <Table variant={'simple'} size="lg">
-            <TableCaption>All available courses in the database</TableCaption>
+        <div style={{ width: '100vw' }}>
+          <table style={{ width: '100%', borderCollapse: 'separate' , borderSpacing:'0 20px' }}>
+            <thead>
+              <tr>
+                <th style={{flex: 1.5  }} >Id</th>
+                <th style={{flex: 1  }} >Poster</th>
+                <th style={{flex: 1  }} >Title</th>
+                <th style={{flex: 1  }} >Category</th>
+                <th style={{flex: 1  }} >Creator</th>
+                <th style={{flex: 1  }} >Views</th>
+                <th style={{flex: 1  }} >Lectures</th>
+                <th style={{flex: 1  }} >Action</th>
+              </tr>
+            </thead>
 
-            <Thead>
-              <Tr>
-                <Th>Id</Th>
-                <Th>Poster</Th>
-                <Th>Title</Th>
-                <Th>Category</Th>
-                <Th>Creator</Th>
-                <Th isNumeric>Views</Th>
-                <Th isNumeric>Lectures</Th>
-                <Th isNumeric>Action</Th>
-              </Tr>
-            </Thead>
-
-            <Tbody>
+            <tbody>
               {courses.map(item => (
                 <Row
                   coureDetailsHandler={coureDetailsHandler}
@@ -146,65 +130,67 @@ const AdminCourses = () => {
                   loading={loading}
                 />
               ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+            </tbody>
+          </table>
+          <h1 style={{ color: '#4A5568', textAlign: 'center', width: '100%' , margin:'30px' }}>
+            All available courses in the database
+          </h1>
+        </div>
 
-        <CourseModal
-          isOpen={isOpen}
-          onClose={onClose}
-          id={courseId}
-        // id={"tyfyvghghg"}
-          // courseTitle={"React Course"}
-          courseTitle={ courseTitle }
-          deleteButtonHandler={deleteLectureButtonHandler}
-          addLectureHandler={addLectureHandler}
-          lectures={lectures}
-          loading={loading}
-        />
-      </Box>
+        { modal &&   <CourseModal
+            // isOpen={isOpen}
+            // onClose={onClose}
+            modal={modal}
+            setModal={setModal}
+            id={courseId}
+            // id={"tyfyvghghg"}
+            // courseTitle={"React Course"}
+            courseTitle={courseTitle}
+            deleteButtonHandler={deleteLectureButtonHandler}
+            addLectureHandler={addLectureHandler}
+            lectures={lectures}
+            loading={loading}
+          />}
+
+      </div>
 
       <Sidebar />
-    </Grid>
+    </div>
   );
 };
 
 function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
   return (
-    <Tr>
-      <Td>#{item._id}</Td>
+    <tr>
+      <td>#{item._id}</td>
+      <td style={{padding:'0 0'}} >
+        <img style={{width:'80px' , height:'100%' }} src={item.poster.url} alt="" />
+      </td>
 
-      <Td>
-        <Image src={item.poster.url} />
-      </Td>
+      <td>{item.title}</td>
+      <td textTransform={'uppercase'}>{item.category}</td>
+      <td>{item.createdBy}</td>
+      <td >{item.views}</td>
+      <td >{item.numOfVideos}</td>
 
-      <Td>{item.title}</Td>
-      <Td textTransform={'uppercase'}>{item.category}</Td>
-      <Td>{item.createdBy}</Td>
-      <Td isNumeric>{item.views}</Td>
-      <Td isNumeric>{item.numOfVideos}</Td>
-
-      <Td isNumeric>
-        <HStack justifyContent={'flex-end'}>
-          <Button
+      <td >
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            className="courses-button-lg"
             onClick={() => coureDetailsHandler(item._id, item.title)}
-            variant={'outline'}
-            color="purple.500"
-            isLoading={loading}
           >
-            View Lectures
-          </Button>
+            {loading ? <Loader color="#7442E9" /> : 'View Lectures'}
+          </button>
 
-          <Button
+          <button
+            className="courses-button-lg"
             onClick={() => deleteButtonHandler(item._id)}
-            color={'purple.600'}
-            isLoading={loading}
           >
-            <RiDeleteBin7Fill />
-          </Button>
-        </HStack>
-      </Td>
-    </Tr>
+            {loading ? <Loader color="#7442E9" /> : <RiDeleteBin7Fill />}
+          </button>
+        </div>
+      </td>
+    </tr>
   );
 }
 

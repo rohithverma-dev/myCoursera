@@ -224,8 +224,9 @@
     cursor: pointer;
     width: 110%;
     height: 100%;
-    color: #ECC94B;
-    background-color: white;
+    color: white ;
+    background-color: #6f612d ;
+    background-color: #ECC94B ;
     border: 1px solid #e2e8f0;
     /* Outer border */
     outline: 2px solid #e2e8f0;
@@ -237,15 +238,16 @@
 
 .file-upload:hover {
     color: white;
-    background-color: #ECC94B;
+    background-color: #ECC94B ;
+    background-color: #6f612d ;
 }
 
 .file-upload::-webkit-file-upload-button {
     cursor: pointer;
     width: 110%;
     height: 100%;
-    color: #ECC94B;
-    background-color: white;
+    color: #fff ;
+    background-color: #ECC94B ;
     border: 1px solid #e2e8f0;
     /* Outer border */
     outline: 2px solid #e2e8f0;
@@ -253,11 +255,27 @@
     outline-offset: -2px;
     /* Adjust spacing between the border and content */
     transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 7px 0;
 }
 
 .file-upload:hover::-webkit-file-upload-button {
     color: white;
-    background-color: #ECC94B;
+    background-color: #ECC94B ;
+    background-color: #6f612d ;
+}
+
+
+.admin-sidebar-button{
+    font-size: 20px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    font-weight: bolder;
+}
+
+.admin-sidebar-button:hover{
+    color: #7442e9;
 }
 
 

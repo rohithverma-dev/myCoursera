@@ -1,0 +1,93 @@
+.modal-button-lg {
+    color: #7442E9;
+    background-color: #f2f8ff;
+    font-weight: 401;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 20px;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.modal-button-lg:hover {
+    background-color: #E2E8F0;
+}
+
+
+.modal-grid {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.modal-box {
+    padding: 64px;
+}
+
+.modal-heading {
+    text-transform: uppercase;
+    margin: 64px 0;
+    text-align: left;
+    font-weight: bolder;
+    font-size: 2.25rem;
+}
+
+.modal-text {
+    margin: 64px 0;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.videocard-div {
+    display: flex;
+    justify-content: space-between;
+    padding: 32px;
+    border-radius: 0.5rem;
+}
+
+.modal-close-button {
+    position: absolute;
+    right: 40px;
+    top: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #92b6ff26;
+    font-weight: bolder;
+    color: black;
+    padding: 5px;
+}
+
+.modal-close-button:hover{
+    background-color: #E2E8F0;
+}
+
+@media screen and (max-width:800px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media screen and (max-width:600px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-box {
+        padding: 0;
+    }
+
+    .modal-heading {
+        /* text-align: center; */
+        font-size: 1.75rem;
+    }
+
+    .videocard-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 16px;
+    }
+}

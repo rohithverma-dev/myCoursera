@@ -8,6 +8,55 @@
 }
 
 
+/* ---- file Upload ----  ---- file Upload ---- */
+/* ---- file Upload ----  ---- file Upload ---- */
+/* ---- file Upload ----  ---- file Upload ---- */
+
+.register-file-upload {
+    cursor: pointer;
+    width: 110%;
+    height: 100%;
+    color: white ;
+    background-color: #ECC94B ;
+    border: 1px solid #e2e8f0;
+    /* Outer border */
+    outline: 2px solid #e2e8f0;
+    /* Additional border */
+    outline-offset: -2px;
+    /* Adjust spacing between the border and content */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.register-file-upload:hover {
+    color: white;
+    background-color: #6f612d ;
+}
+
+.register-file-upload::-webkit-file-upload-button {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    color: #fff ;
+    background-color: #ECC94B ;
+    background-color: #9a6eff ;
+    border: 1px solid #e2e8f0;
+    /* Outer border */
+    outline: 2px solid #e2e8f0;
+    /* Additional border */
+    outline-offset: -2px;
+    /* Adjust spacing between the border and content */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 7px 0;
+}
+
+.register-file-upload:hover::-webkit-file-upload-button {
+    color: white;
+    background-color: #6f612d ;
+    background-color: #462d6f ;
+}
+
+
+
 @media (min-width: 600px) {
     .register-avatar {
         width: 12rem;

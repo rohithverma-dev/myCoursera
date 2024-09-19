@@ -1,18 +1,3 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Heading,
-  HStack,
-  Table,
-  TableCaption,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import cursor from '../../../assets/images/cursor.png';
@@ -25,20 +10,21 @@ import {
 } from '../../../redux/actions/admin';
 import toast from 'react-hot-toast';
 import Loader from '../../Layout/Loader/Loader';
-
+import './adminusers.css';
 
 const Users = () => {
-    // const users = [
-    //     {
-    //         _id:"aKAKBAKAKSBHKABCS",
-    //         name:"rohit verma",
-    //         role:"admin",
-    //         subscription:{
-    //             status:"active",
-    //         },
-    //         email:"rv171613@gmail.com",
-    //     }
-    // ]
+  // const users = [
+  //     {
+  //         _id:"aKAKBAKAKSBHKABCS",
+  //         name:"rohit verma",
+  //         role:"admin",
+  //         subscription:{
+  //             status:"active",
+  //         },
+  //         email:"rv171613@gmail.com",
+  //     }
+  // ]
+
   const { users, loading, error, message } = useSelector(state => state.admin);
 
   const dispatch = useDispatch();
@@ -52,8 +38,6 @@ const Users = () => {
     dispatch(deleteUser(userId));
   };
 
-
-
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -66,61 +50,62 @@ const Users = () => {
     }
 
     dispatch(getAllUsers());
-  }, [dispatch, error, message]);  
-
+  }, [dispatch, error, message]);
 
   return (
-    <Grid
-      css={{
+    <div
+      className="users-grid"
+      style={{
         cursor: `url(${cursor}), default`,
       }}
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
     >
-     {loading ? (<Loader color="purple.500"/>):(
-       <Box p={['0', '16']} overflowX="auto">
-       <Heading
-         textTransform={'uppercase'}
-         children="All Users"
-         my="16"
-         textAlign={['center', 'left']}
-       />
+      {loading ? (
+        <Loader color="#6B46C1" />
+      ) : (
+        <div className="users-box" style={{ overflowX: 'auto' }} >
+          <h1 className="users-heading">All Users</h1>
+          <div style={{ width: '100vw' }}>
+            <table style={{ width: '100%', borderCollapse: 'separate' , borderSpacing:'0 20px' }}>
+              <thead>
+                <tr>
+                  <th style={{ flex: 1.5 }}>Id</th>
+                  <th style={{ flex: 1 }}>Name</th>
+                  <th style={{ flex: 1 }}>Email</th>
+                  <th style={{ flex: 1 }}>Role</th>
+                  <th style={{ flex: 1 }}>Subscription</th>
+                  <th style={{ flex: 1 }}>Action</th>
+                </tr>
+              </thead>
 
-       <TableContainer w={['100vw', 'full']}>
-         <Table variant={'simple'} size="lg">
-           <TableCaption>All available users in the database</TableCaption>
-
-           <Thead>
-             <Tr>
-               <Th>Id</Th>
-               <Th>Name</Th>
-               <Th>Email</Th>
-               <Th>Role</Th>
-               <Th>Subscription</Th>
-               <Th isNumeric>Action</Th>  
-               {/* // isNumeric se alignitems right ho jata h (Ex-Cell ) - by abhishek youtuber     */}
-             </Tr>
-           </Thead>
-
-           <Tbody>
-             {users &&
-               users.map(item => (
-                 <Row
-                   updateHandler={updateHandler}
-                   deleteButtonHandler={deleteButtonHandler}
-                   key={item._id}
-                   item={item}
-                   loading={loading}
-                 />
-               ))}
-           </Tbody>
-         </Table>
-       </TableContainer>
-     </Box>
-     )}
+              <tbody>
+                {users &&
+                  users.map(item => (
+                    <Row
+                      updateHandler={updateHandler}
+                      deleteButtonHandler={deleteButtonHandler}
+                      key={item._id}
+                      item={item}
+                      loading={loading}
+                    />
+                  ))}
+              </tbody>
+            </table>
+            <h1
+              style={{
+                color: '#4A5568',
+                textAlign: 'center',
+                width: '100%',
+                margin: '30px',
+              }}
+            >
+              All available users in the database
+            </h1>
+          </div>
+        </div>
+      )}
 
       <Sidebar />
-    </Grid>
+    </div>
   );
 };
 
@@ -128,20 +113,20 @@ export default Users;
 
 function Row({ item, updateHandler, deleteButtonHandler, loading }) {
   return (
-    <Tr>
-      <Td>#{item._id}</Td>
-      <Td>{item.name}</Td>
-      <Td>{item.email}</Td>
-      <Td>{item.role}</Td>
-      <Td>
+    <tr >
+      <td>#{item._id}</td>
+      <td>{item.name}</td>
+      <td>{item.email}</td>
+      <td>{item.role}</td>
+      <td>
         {item.subscription && item.subscription.status === 'active'
           ? 'Active'
           : 'Not Active'}
-      </Td>
+      </td>
 
-      <Td isNumeric>
-        <HStack justifyContent={'flex-end'}>
-          <Button
+      <td >
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          {/* <Button
             onClick={() => updateHandler(item._id)}
             variant={'outline'}
             color="purple.500"
@@ -156,9 +141,23 @@ function Row({ item, updateHandler, deleteButtonHandler, loading }) {
             isLoading={loading}
           >
             <RiDeleteBin7Fill />
-          </Button>
-        </HStack>
-      </Td>
-    </Tr>
+          </Button> */}
+
+          <button
+            className="users-button-lg"
+            onClick={() => updateHandler(item._id)}
+          >
+            {loading ? <Loader color="#7442E9" /> : 'Change Role'}
+          </button>
+
+          <button
+            className="users-button-lg"
+            onClick={() => deleteButtonHandler(item._id)}
+          >
+            {loading ? <Loader color="#7442E9" /> : <RiDeleteBin7Fill />}
+          </button>
+        </div>
+      </td>
+    </tr>
   );
 }

@@ -116,7 +116,7 @@ const Register = () => {
               required
               id="chooseAvatar"
               type="file"
-              className="file-upload"
+              className="register-file-upload"
               onChange={changeImageHandler}
             />
           </div>
@@ -126,7 +126,7 @@ const Register = () => {
           </button>
 
           <div style={{margin:'16px 0'}}>
-            Already Signed Up?{' '}
+            Already Signed Up?
             <Link to="/login">
               <button className='custom-button-link-yellow'>
                 Login

@@ -1,22 +1,13 @@
-import {
-  Button,
-  Container,
-  Grid,
-  Heading,
-  Image,
-  Input,
-  Select,
-  VStack,
-} from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import cursor from '../../../assets/images/cursor.png';
-import { fileUploadCss } from '../../Auth/Register';
 import Sidebar from '../Sidebar';
 import toast from 'react-hot-toast';
 import { createCourse } from '../../../redux/actions/admin';
 import { useDispatch, useSelector } from 'react-redux';
+import './createcourse.css';
+import Loader from '../../../CustomComponents/Loader/Loader';
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('');
@@ -26,7 +17,7 @@ const CreateCourse = () => {
   const [image, setImage] = useState('');
   const [imagePrev, setImagePrev] = useState('');
 
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
   const { loading, error, message } = useSelector(state => state.admin);
 
   const categories = [
@@ -42,15 +33,13 @@ const CreateCourse = () => {
     const file = e.target.files[0];
     const reader = new FileReader();
     if (file) {
+      reader.readAsDataURL(file);
 
-    reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      setImagePrev(reader.result);
-      setImage(file);
-    };
-}
-
+      reader.onloadend = () => {
+        setImagePrev(reader.result);
+        setImage(file);
+      };
+    }
   };
 
   const submitHandler = e => {
@@ -63,7 +52,7 @@ const CreateCourse = () => {
     myForm.append('file', image);
     dispatch(createCourse(myForm));
   };
-  
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -75,53 +64,54 @@ const CreateCourse = () => {
       dispatch({ type: 'clearMessage' });
     }
   }, [dispatch, error, message]);
-  
-
 
   return (
-    <Grid
-      css={{
+    <div
+      className="createcourse-grid"
+      style={{
         cursor: `url(${cursor}), default`,
       }}
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
     >
-      <Container py="16">
+      <div style={{width:'70%'}} className='custom-container'  >
         <form onSubmit={submitHandler}>
-          <Heading
-            textTransform={'uppercase'}
-            children="Create Course"
-            my="16"
-            textAlign={['center', 'left']}
-          />
-
-          <VStack m="auto" spacing={'4'}>
-            <Input
-              value={title}
+          <h1 className="createcourse-heading">Create Course</h1>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              margin: 'auto',
+              gap: '16px',
+            }}
+          >
+            <input
               required
+              value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Title"
-              type={'text'}
-              focusBorderColor="purple.300"
-            />{' '}
-            <Input
-              value={description}
+              type="text"
+              className="createcourse-custom-input"
+            />
+
+            <input
               required
+              value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="Description"
               type={'text'}
-              focusBorderColor="purple.300"
+              className="createcourse-custom-input"
             />
-            <Input
+
+            <input
               value={createdBy}
               required
               onChange={e => setCreatedBy(e.target.value)}
               placeholder="Creator Name"
               type={'text'}
-              focusBorderColor="purple.300"
+              className="createcourse-custom-input"
             />
-            <Select
-              focusBorderColor="purple.300"
+
+            <select
+              className="createcourse-custom-input"
               required
               value={category}
               onChange={e => setCategory(e.target.value)}
@@ -133,37 +123,43 @@ const CreateCourse = () => {
                   {item}
                 </option>
               ))}
-            </Select>
-            <Input
+            </select>
+
+            <input
               accept="image/*"
               required
-              type={'file'}
-              focusBorderColor="purple.300"
-              css={{
-                '&::file-selector-button': {
-                  ...fileUploadCss,
-                  color: 'purple',
-                },
-              }}
+              type="file"
+              style={{ width: '100%' }}
+              className="file-upload"
               onChange={changeImageHandler}
             />
+
             {imagePrev && (
-              <Image src={imagePrev} boxSize="64" objectFit={'contain'} />
+              <img
+                style={{
+                  width: '256px',
+                  maxHeight: '320px',
+                  objectFit: 'contain',
+                }}
+                src={imagePrev ? imagePrev : './Profile copy.png'}
+                alt="profile pic"
+              />
             )}
-            <Button
-              isLoading={loading}
-              w="full"
-              colorScheme={'purple'}
+
+            <button
+              disabled={loading ? true : false}
+              style={{ width: '100%' }}
+              className="createcourse-button-md"
               type="submit"
             >
-              Create
-            </Button>
-          </VStack>
+              {loading ? <Loader /> : 'Create'}
+            </button>
+          </div>
         </form>
-      </Container>
+      </div>
 
       <Sidebar />
-    </Grid>
+    </div>
   );
 };
 
