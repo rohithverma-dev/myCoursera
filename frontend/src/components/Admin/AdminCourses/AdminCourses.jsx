@@ -1,6 +1,3 @@
-// import {
-//   useDisclosure,
-// } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';

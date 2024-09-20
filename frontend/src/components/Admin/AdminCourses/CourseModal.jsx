@@ -1,11 +1,3 @@
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
-} from '@chakra-ui/react';
 import React from 'react';
 import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
@@ -44,12 +36,12 @@ const CourseModal = ({
   };
 
   const handleClose = () => {
-    setTitle('');
-    setDescription('');
+    // setTitle('');
+    // setDescription('');
     setVideo('');
     setVideoPrev('');
     // onClose();    // wait...
-    setModal(false)
+    // setModal(false)
   };
 
   return (
@@ -148,9 +140,7 @@ const CourseModal = ({
 
             <div>
               <form
-                onSubmit={e =>
-                  addLectureHandler(e, id, title, description, video)
-                }
+                onSubmit={e => { addLectureHandler(e, id, title, description, video); handleClose(); } }
               >
                 <div
                   style={{
