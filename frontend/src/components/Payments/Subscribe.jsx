@@ -1,11 +1,3 @@
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
@@ -14,6 +6,8 @@ import { buySubscription } from '../../redux/actions/user';
 import { server } from '../../redux/store';
 import toast from 'react-hot-toast';
 import logo from '../../assets/images/logo.png';
+import './payment-section.css';
+import Loader from '../../CustomComponents/Loader/Loader';
 
 const Subscribe = ({ user }) => {
   const dispatch = useDispatch();
@@ -32,10 +26,8 @@ const Subscribe = ({ user }) => {
       data: { key },
     } = await axios.get(`${server}/razorpaykey`);
     setKey(key);
-
     dispatch(buySubscription());
-
-    console.log("subscribeHandler");
+    console.log('subscribeHandler');
   };
 
   useEffect(() => {
@@ -60,7 +52,7 @@ const Subscribe = ({ user }) => {
             name: user.name,
             email: user.email,
             contact: '',
-          }, 
+          },
           notes: {
             address: 'Rohit  Programmer',
           },
@@ -74,7 +66,8 @@ const Subscribe = ({ user }) => {
       openPopUp();
     }
   }, [
-    dispatch,  error,
+    dispatch,
+    error,
     courseError,
     user.name,
     user.email,
@@ -83,51 +76,84 @@ const Subscribe = ({ user }) => {
   ]);
 
   return (
-    <Container h="90vh" p="16">
-      <Heading children="Welcome" my="8" textAlign={'center'} />
-
-      <VStack
-        boxShadow={'lg'}
-        alignItems="stretch"
-        borderRadius={'lg'}
-        spacing="0"
+    <div className="payment-section-container">
+      <h1
+        style={{ textTransform: 'none', textAlign: 'center', margin: '32px' }}
+        className="payment-section-heading"
       >
-        <Box bg="yellow.400" p={'4'} css={{ borderRadius: '8px 8px 0 0' }}>
-          <Text color={'black'} children={`Pro Pack - ₹499.00`} />
-        </Box>
-        <Box p="4">
-          <VStack textAlign={'center'} px="8" mt={'4'} spacing="8">
-            <Text children={`Join pro pack and get access to all content.`} />
-            <Heading size="md" children={'₹299 Only'} />
-          </VStack>
+        Welcome
+      </h1>
 
-          <Button
-            my="8"
-            w="full"
-            colorScheme={'yellow'}
-            onClick={subscribeHandler}
-            // isLoading={loading}
+      <div className="payment-section-vstack">
+        <div style={{ borderRadius: '8px 8px 0 0' , padding:'16px' , backgroundColor:'#ECC94B' }}>
+          <p style={{ color: 'black', fontSize: '1rem' }}>
+            {`Pro Pack - ₹499.00`}
+          </p>
+        </div>
+        <div style={{ padding: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '32px',
+              justifyContent: 'center',
+              textAlign: 'center',
+              padding: '0 32px',
+              marginTop: '16px',
+            }}
           >
-            Buy Now
-          </Button>
-        </Box>
+            <p style={{ fontSize: '1rem' }}>
+              {`Join pro pack and get access to all content.`}
+            </p>
+            <h1
+              style={{
+                fontSize: '1.25rem',
+                textAlign: 'left',
+                textTransform: 'none',
+                margin: 0,
+              }}
+              className="payment-section-heading"
+            >
+              ₹299 Only
+            </h1>
+          </div>
 
-        <Box bg="blackAlpha.600" p="4" css={{ borderRadius: '0 0 8px 8px' }}>
-          <Heading
-            color={'white'}
-            textTransform="uppercase"
-            size="sm"
-            children={'100% refund at cancellation'}
-          />
+          <button
+            className="button-lg"
+            style={{ width: '100%', margin: '32px 0' }}
+            disabled={loading ? true : false}
+            onClick={subscribeHandler}
+          >
+            {loading ? <Loader color="#7442E9" /> : ' Buy Now'}
+          </button>
+        </div>
 
-          <Text
-            fontSize={'xs'}
-            color="white"
-            children={'*Terms & Conditions Apply'}
-          />
-        </Box>
-      </VStack>
-    </Container>
+        <div
+          style={{
+            backgroundColor: '#858585',
+            padding: '16px',
+            borderRadius: '0 0 8px 8px',
+          }}
+        >
+          <h1
+            style={{
+              fontSize: '1rem',
+              margin: '0',
+              textAlign: 'left',
+              color: 'white',
+            }}
+            className="payment-section-heading"
+          >
+            {'100% refund at cancellation'}
+          </h1>
+          <p style={{ color: 'white', fontSize: '0.75rem' }}>
+            {' '}
+            *Terms & Conditions Apply{' '}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

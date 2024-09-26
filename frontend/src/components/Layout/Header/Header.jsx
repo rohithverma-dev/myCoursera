@@ -1,40 +1,40 @@
-import React from 'react'
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  HStack,
-  VStack,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/user';
+
 const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
   <Link onClick={onClose} to={url}>
-    <Button variant={'ghost'}  >{title}</Button>
+    <button
+      style={{
+        whiteSpace: 'nowrap',
+        fontWeight: '500',
+        fontSize: '1rem',
+        padding: '8px 16px',
+      }}
+      className="courses-category-button"
+    >
+      {title}
+    </button>
   </Link>
 );
 
-
-
-const Header = ({isAuthenticated=false , user}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch()
+const Header = ({ isAuthenticated = false, user }) => {
+  const [headermodal, setHeadermodal] = useState(true);
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    onClose();   
+    // onClose();
+    setHeadermodal(false);
     dispatch(logout());
-  };   
+  };
 
   return (
     <>
-      <Button
-        onClick={onOpen}
+      {/* <Button
+        // onClick={onOpen}
         colorScheme={'yellow'}
         width="12"
         height={'12'}
@@ -45,75 +45,224 @@ const Header = ({isAuthenticated=false , user}) => {
         left="6"
       >
         <RiMenu5Fill />
-      </Button>
+      </Button> */}
 
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen} >
-        <DrawerOverlay backdropFilter={"blur(2px)"} />
-        <DrawerContent>
-          <DrawerHeader>COURSE BUNDLER</DrawerHeader>
-          <DrawerBody>
-          <VStack spacing={'4'} alignItems="flex-start">
-            <LinkButton onClose={onClose} url="/" title="Home" />
-            <LinkButton onClose={onClose} url="/courses" title="Browse All Courses" />
-            <LinkButton onClose={onClose} url="/request" title="Request a Course" />
-            <LinkButton onClose={onClose} url="/contact" title="Contact Us" />
-            <LinkButton onClose={onClose} url="/about" title="About" />
+      <button
+        onClick={()=>setHeadermodal(true)}
+        style={{
+          fontWeight: 'bold',
+          width: '12',
+          height: '12',
+          borderRadius: '45px',
+          position: 'fixed',
+          top: '24px',
+          left: '24px',
+          padding: '15px',
+          zIndex: '2',
+        }}
+        className="button-lg"
+      >
+        <RiMenu5Fill />
+      </button>
 
-            <HStack
-                justifyContent={'space-evenly'}
-                position="absolute"
-                bottom={'2rem'}
-                width="80%"
+      {headermodal && (
+        <div className="header-modal" 
+        style={{
+          position:'fixed' ,
+          top:'0' ,
+          left:'0' ,
+          bottom:'0' ,
+          right:'0' ,
+          zIndex:'10',
+        }}
+         >
+          <div
+            className='headermodal-overlay'
+            onClick={() => setHeadermodal(false)}
+            style={{
+              top: '0',
+              left: '0',
+              right: '0',
+              bottom: '0',
+              backdropFilter: 'blur(2px)',
+              position: 'fixed',
+              zIndex: '2',
+            }}
+          ></div>
+          <div 
+            className='headermodal-content'
+            style={{
+              width: '320px',
+              height: '100vh',
+              boxShadow: ' 0 4px 6px rgba(0, 0, 0, 0.2)',
+              backgroundColor: 'rgb(255, 251, 235 )' ,
+              position:'relative'  ,
+              zIndex:'10' ,
+              borderWidth:'1px'
+            }}
+          >
+            <h1
+              style={{
+                whiteSpace: 'nowrap',
+                fontWeight: '600',
+                fontSize: '20px',
+                padding: '16px 24px',
+                textTransform: 'none',
+                margin: '10px 0',
+                marginBottom: '16px',
+                textAlign: 'left',
+              }}
+              className="courses-heading"
+            >
+              MYCOURSERA
+            </h1>
+
+            <div style={{ padding: '8px 24px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                }}
               >
-                {isAuthenticated ? (
-                <>
-                <VStack>
-                  <HStack>
-                  <Link onClick={onClose} to="/profile">
-                          <Button variant={'ghost'} colorScheme={'yellow'}>
-                            Profile
-                          </Button>
-                  </Link>
-                        <Button onClick={logoutHandler}>
-                          <RiLogoutBoxLine />
-                          Logout
-                        </Button>
-                  </HStack>
-                  {user && user.role === 'admin' && (
-                        <Link onClick={onClose} to="/admin/dashboard">
-                          <Button colorScheme={'purple'} variant="ghost">
-                            <RiDashboardFill style={{ margin: '4px' }} />
-                            Dashboard
-                          </Button>
-                        </Link>
-                      )}
-                </VStack>
+                <LinkButton
+                  onClick={() => setHeadermodal(false)}
+                  url="/"
+                  title="Home"
+                />
+                <LinkButton
+                  onClick={() => setHeadermodal(false)}
+                  url="/courses"
+                  title="Browse All Courses"
+                />
+                <LinkButton
+                  onClick={() => setHeadermodal(false)}
+                  url="/request"
+                  title="Request a Course"
+                />
+                <LinkButton
+                  onClick={() => setHeadermodal(false)}
+                  url="/contact"
+                  title="Contact Us"
+                />
+                <LinkButton
+                  onClick={() => setHeadermodal(false)}
+                  url="/about"
+                  title="About"
+                />
 
-                </>
-                ) : (
-                  <>
-                    <Link onClick={onClose} to="/login">
-                      <Button colorScheme={'yellow'}>Login</Button>
-                    </Link>
+                <div
+                  style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    bottom: '2rem',
+                    width: '80%',
+                    justifyContent: 'space-evenly',
+                  }}
+                >
+                  {isAuthenticated ? (
+                    <>
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '0.5rem',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                          <Link 
+                onClick={()=>setHeadermodal(false)}
+                to="/profile">
+                            <button
+                              style={{
+                                fontSize: '16px',
+                                fontWeight: '501',
+                                color: '#b7791f',
+                                backgroundColor: 'transparent',
+                                padding: '8px 16px',
+                              }}
+                              className="courses-category-button"
+                            >
+                              Profile
+                            </button>
+                          </Link>
+                          <button
+                            style={{
+                              fontSize: '16px',
+                              fontWeight: '501',
+                              padding: '8px 16px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                            }}
+                            className="courses-category-button"
+                            onClick={logoutHandler}
+                          >
+                            <RiLogoutBoxLine />
+                            Logout
+                          </button>
+                        </div>
+                        {user && user.role === 'admin' && (
+                          <Link
+                            onClick={() => setHeadermodal(false)}
+                            to="/admin/dashboard"
+                          >
+                            <button
+                              style={{
+                                fontSize: '16px',
+                                fontWeight: '501',
+                                padding: '8px 16px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                color: '#6b46c1',
+                              }}
+                              className="courses-category-button"
+                            >
+                              <RiDashboardFill style={{ margin: '4px' }} />
+                              Dashboard
+                            </button>
+                          </Link>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Link onClick={() => setHeadermodal(false)} to="/login">
+                        <button
+                          style={{ fontSize: '16px', padding: '8px 16px' }}
+                          className="button-lg"
+                        >
+                          Login
+                        </button>
+                      </Link>
 
-                    <p>OR</p>
+                      <p>OR</p>
 
-                    <Link onClick={onClose} to="/register">
-                      <Button colorScheme={'yellow'}>Sign Up</Button>
-                    </Link>
-                  </>
-                )}
-              </HStack>
-
-
-              
-          </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-
+                      <Link
+                        onClick={() => setHeadermodal(false)}
+                        to="/register"
+                      >
+                        <button
+                          style={{ fontSize: '16px', padding: '8px 16px' }}
+                          className="button-lg"
+                        >
+                          Sign Up
+                        </button>
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,50 +1,36 @@
-import {
-  Avatar,
-  Button,
-  Container,
-  Heading,
-  HStack,
-  Image,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Stack,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-import { fileUploadCss } from '../Auth/Register';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile';
+import {
+  removeFromPlaylist,
+  updateProfilePicture,
+} from '../../redux/actions/profile';
 import { cancelSubscription, loadUser } from '../../redux/actions/user';
+import Loader from '../../CustomComponents/Loader/Loader';
+import { RxCross1 } from 'react-icons/rx';
+import './profile-section.css';
+import "./profile-modal.css";
 
-const Profile = ({user}) => {
-
-  const dispatch = useDispatch()
+const Profile = ({ user }) => {
+  const dispatch = useDispatch();
+  const [modal, setModal] = useState(false)
   const { loading, message, error } = useSelector(state => state.profile);
   const {
     loading: subscriptionLoading,
     message: subscriptionMessage,
     error: subscriptionError,
   } = useSelector(state => state.subscription);
-  
+
   const removeFromPlaylistHandler = async id => {
     await dispatch(removeFromPlaylist(id));
     dispatch(loadUser());
   };
 
   const changeImageSubmitHandler = async (e, image) => {
-    console.log("updateprofilePicture",image , "Image");
+    console.log('updateprofilePicture', image, 'Image');
     e.preventDefault();
     const myForm = new FormData();
     myForm.append('file', image);
@@ -53,11 +39,9 @@ const Profile = ({user}) => {
   };
 
   const cancelSubscriptionHandler = () => {
-    console.log("cancel subscription");
+    console.log('cancel subscription');
     dispatch(cancelSubscription());
   };
-
-  const { isOpen, onClose, onOpen } = useDisclosure();
 
 
   useEffect(() => {
@@ -81,127 +65,215 @@ const Profile = ({user}) => {
     }
   }, [dispatch, error, message, subscriptionError, subscriptionMessage]);
 
-
   return (
-    <Container minH={'95vh'} maxW="container.lg" py="8">
-      <Heading children="Profile" m="8" textTransform={'uppercase'} />
+    <div className="courses-container">
+      <h1 style={{ margin: 32 }} className="courses-heading">
+        Profile
+      </h1>
+      <div className="profile-stack">
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              margin: '16px 0',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <img
+              className="register-avatar"
+              src={user.avatar.url}
+              alt="profile pic"
+            />
+          </div>
 
-      <Stack
-        justifyContent={'flex-start'}
-        direction={['column', 'row']}
-        alignItems={'center'}
-        spacing={['8', '16']}
-        padding="8"
-      >
-        <VStack>  
-          <Avatar boxSize={'48'} src={user.avatar.url} />
-          <Button  onClick={onOpen} colorScheme={'yellow'} variant="ghost">
+          <button
+            className="button-lg"
+            style={{
+              padding: '8px 11px',
+              fontSize: '1rem',
+              backgroundColor: 'transparent',
+              color: '#B7791F',
+            }}
+            // onClick={onOpen}
+            onClick={()=>{setModal(true)}}
+          >
             Change Photo
-          </Button>
-        </VStack>
+          </button>
+        </div>
 
-        <VStack spacing={'4'} alignItems={['center', 'flex-start']}>
-          <HStack>
-            <Text children="Name" fontWeight={'bold'} />
-            <Text children={user.name} />
-          </HStack>{' '}
-          <HStack>
-            <Text children="Email" fontWeight={'bold'} />
-            <Text children={user.email} />
-          </HStack>
-          <HStack>
-            <Text children="CreatedAt" fontWeight={'bold'} />
-            <Text children={user.createdAt.split('T')[0]} />
-          </HStack>
+        <div
+          className="profile-vstack"
+          spacing={'4'}
+          alignItems={['center', 'flex-start']}
+        >
+          <div style={{ display: 'flex' }}>
+            <p style={{ fontWeight: 'bold' }}>Name</p>
+            <p style={{ marginInlineStart: '0.5rem' }}>{user.name}</p>
+          </div>
+          <div style={{ display: 'flex' }}>
+            <p style={{ fontWeight: 'bold' }}>Email</p>
+            <p style={{ marginInlineStart: '0.5rem' }}>{user.email}</p>
+          </div>
+          <div style={{ display: 'flex' }}>
+            <p style={{ fontWeight: 'bold' }}>CreatedAt</p>
+            <p style={{ marginInlineStart: '0.5rem' }}>
+              {user.createdAt.split('T')[0]}
+            </p>
+          </div>
           {user.role !== 'admin' && (
-            <HStack>
-              <Text children="Subscription" fontWeight={'bold'} />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <p style={{ fontWeight: 'bold' }}>Subscription</p>
               {user.subscription && user.subscription.status === 'active' ? (
-                <Button
-                  isLoading={subscriptionLoading}
+                <button
+                  className="button-lg"
+                  style={{
+                    padding: '8px 11px',
+                    fontSize: '1rem',
+                    backgroundColor: 'transparent',
+                    color: '#B7791F',
+                  }}
+                  disabled={subscriptionLoading ? true : false}
                   onClick={cancelSubscriptionHandler}
-                  color={'yellow.500'}
-                  variant="unstyled"
                 >
-                  Cancel Subscription
-                </Button>
+                  {subscriptionLoading ? (
+                    <Loader color="#B7791F" />
+                  ) : (
+                    'Cancel Subscription'
+                  )}
+                </button>
               ) : (
                 <Link to="/subscribe">
-                  <Button colorScheme={'yellow'}>Subscribe</Button>
+                  <button
+                    style={{
+                      fontSize: '0.95rem',
+                      padding: '8px 11px',
+                      fontWeight: 'bold',
+                    }}
+                    className="button-lg"
+                  >
+                    Subscribe
+                  </button>
                 </Link>
               )}
-            </HStack>
+            </div>
           )}
-          <Stack direction={['column', 'row']} alignItems={'center'}>
+          <div className="courses-stack" style={{ gap: '1.5rem' }}>
             <Link to="/updateprofile">
-              <Button>Update Profile</Button>
+              <button
+                style={{
+                  whiteSpace: 'nowrap',
+                  fontWeight: '500',
+                  minWidth: '200px',
+                }}
+                className="courses-category-button"
+              >
+                Update Profile
+              </button>
             </Link>
 
             <Link to="/changepassword">
-              <Button>Change Password</Button>
+              <button
+                style={{
+                  whiteSpace: 'nowrap',
+                  fontWeight: '500',
+                  minWidth: '200px',
+                }}
+                className="courses-category-button"
+              >
+                Change Password
+              </button>
             </Link>
-          </Stack>
-        </VStack>
-      </Stack>
+          </div>
+        </div>
+      </div>
 
-      <Heading children="Playlist" size={'md'} my="8" />
+      <h1
+        style={{
+          margin: '32px 16px',
+          textTransform: 'none',
+          textAlign: 'left',
+          fontSize: '1.25rem',
+        }}
+        className="courses-heading"
+      >
+        Playlist
+      </h1>
 
       {user.playlist.length > 0 && (
-        <Stack
-          direction={['column', 'row']}
-          alignItems={'center'}
-          flexWrap="wrap"
-          p="4"
+        <div
+          className="courses-stack"
+          style={{ alignItems: 'center', padding: '16px', flexWrap: 'wrap' }}
         >
           {user.playlist.map(element => (
-            <VStack w="48" m="2" key={element.course}>
-              <Image
-                boxSize={'full'}
-                objectFit="contain"
+            <div
+              className="profile-vstack"
+              //  w="48" m="2"
+              style={{ width: '192px', margin: '8px' }}
+              key={element.course}
+            >
+              <img
+                style={{ width: '100%', objectFit: 'contain' }}
                 src={element.poster}
+                alt="poster.."
               />
 
-              <HStack>
+              <div
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                }}
+              >
                 <Link to={`/course/${element.course}`}>
-                  <Button variant={'ghost'} colorScheme="yellow">
+                  <button
+                    className="button-lg"
+                    style={{
+                      padding: '8px 11px',
+                      fontSize: '1rem',
+                      backgroundColor: 'transparent',
+                      color: '#B7791F',
+                    }}
+                  >
                     Watch Now
-                  </Button>
+                  </button>
                 </Link>
 
-                <Button
-                  isLoading={loading}
+                <button
+                  style={{
+                    whiteSpace: 'nowrap',
+                    fontWeight: '500',
+                    // minWidth: '200px',
+                  }}
+                  className="courses-category-button"
                   onClick={() => removeFromPlaylistHandler(element.course)}
+                  disabled={loading ? true : false}
                 >
-                  <RiDeleteBin7Fill />
-                </Button>
-              </HStack>
-            </VStack>
+                  {loading ? <Loader /> : <RiDeleteBin7Fill />}
+                </button>
+              </div>
+            </div>
           ))}
-        </Stack>
+        </div>
       )}
 
-      
-      <ChangePhotoBox
+    { modal &&  <ChangePhotoBox
         changeImageSubmitHandler={changeImageSubmitHandler}
-        isOpen={isOpen}
-        onClose={onClose}
+        modal={modal}
+        setModal={setModal}
         loading={loading}
-      />
-    </Container>
+      />}
+    </div>
   );
 };
 
 export default Profile;
 
-
-
-
-
 function ChangePhotoBox({
-  isOpen,
-  onClose,
   changeImageSubmitHandler,
   loading,
+  modal,
+  setModal,
 }) {
   const [imagePrev, setImagePrev] = useState('');
   const [image, setImage] = useState('');
@@ -216,52 +288,92 @@ function ChangePhotoBox({
         setImage(file);
       };
     }
-
   };
 
   const closeHandler = () => {
-    onClose();
+    // onClose();
+    setModal(false)
     setImagePrev('');
     setImage('');
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={closeHandler}>
-      <ModalOverlay backdropFilter={'blur(10px)'} />
-      <ModalContent>
-        <ModalHeader>Change Photo</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Container>
+    <div className="modal">
+      <div style={{background:'blur(10px)'}} className='modal-overlay' onClick={()=>{setModal(false)}} />
+      <div 
+        className='modal-content'
+      >
+        <h1
+          style={{
+            fontSize: '1.25rem',
+            textAlign: 'left',
+            textTransform: 'none',
+            margin: '16px',
+            marginBottom:'48px'
+          }}
+          className="courses-heading"
+        >
+          Change Photo
+        </h1>
+        <div
+          style={{ top: '1rem', right: '1rem' , position:'absolute' }}
+          className="modal-close-button"
+        >
+          <RxCross1 onClick={() => setModal(false)} />
+        </div>
+        <div>
+          <div>
             <form onSubmit={e => changeImageSubmitHandler(e, image)}>
-              <VStack spacing={'8'}>
-                {imagePrev && <Avatar src={imagePrev} boxSize={'48'} />}
-
-                <Input
-                  type={'file'}
-                  css={{ '&::file-selector-button': fileUploadCss }}
+              <div
+                className="profile-vstack"
+                style={{ gap: '16px', alignItems: 'center' }}
+              >
+                {imagePrev && (
+                  <img
+                    className="register-avatar"
+                    src={imagePrev}
+                    alt="profile pic"
+                  />
+                )}
+                <input
+                  accept="image/*"
+                  required
+                  type="file"
+                  className="file-upload"
+                  style={{
+                    width: '100%',
+                  }}
                   onChange={changeImage}
                 />
 
-                <Button
-                  isLoading={loading}
-                  w="full"
-                  colorScheme={'yellow'}
+                <button
+                  className="button-lg"
+                  style={{ width: '100%', margin: '16px 0' }}
+                  disabled={loading ? true : false}
                   type="submit"
                 >
-                  Change
-                </Button>
-              </VStack>
+                  {loading ? <Loader color="#7442E9" /> : 'Change'}
+                </button>
+              </div>
             </form>
-          </Container>
-        </ModalBody>
+          </div>
+        </div>
 
-        <ModalFooter>
-          <Button mr="3" onClick={closeHandler}>
+        <div style={{marginTop:'auto' , alignSelf:'flex-end' }} >
+          <button
+            style={{
+              whiteSpace: 'nowrap',
+              fontWeight: '501',
+              minWidth: '100px',
+              alignSelf:'flex-end'
+            }}
+            onClick={closeHandler}
+            className="courses-category-button"
+          >
             Cancel
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

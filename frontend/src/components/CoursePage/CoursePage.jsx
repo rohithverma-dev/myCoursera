@@ -1,14 +1,15 @@
-import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 import { getCourseLectures } from '../../redux/actions/course';
 import Loader from '../Layout/Loader/Loader';
-// import introVideo from '../../assets/videos/intro.mp4';
+import "./coursePage.css"
 
 
 const CoursePage = ({ user }) => {
 
+  const [watching, setWatching] = useState(0)
+  
   const [lectureNumber, setLectureNumber] = useState(0);
 
   const { lectures , loading }   =  useSelector(state=>state.course)
@@ -65,11 +66,11 @@ if (user.role !== "admin") {
 
     return (
       loading ? <Loader/> : (
-        <Grid minH={'90vh'} templateColumns={['1fr', '3fr 1fr']}>
+        <div className='coursepage-grid' >
       {
         lectures && lectures.length > 0 ? (
           <>
-          <Box>
+          <div>
             <video
               width={'100%'}
               controls
@@ -80,15 +81,15 @@ if (user.role !== "admin") {
               // src={introVideo}
             ></video>
 
-            <Heading m="4" children={`#${lectureNumber + 1} ${   lectures[lectureNumber].title }`}   />
             {/* <Heading m="4" children={`#${lectureNumber + 1} ${ lectureTitle  }  `}   /> */}
+            <h1 style={{margin:'16px'}} className='coursepage-heading' >{`#${lectureNumber + 1} ${ lectures[lectureNumber].title }`}</h1>
+            
 
-            <Heading m="4" children="Description" />
-            <Text m="4" children={lectures[lectureNumber].description} />
-            {/* <Text m="4" children={"asjcnsjkdjc aksjnanjcdjk"} /> */}
-          </Box>
+            <h1 style={{margin:'16px' , textTransform:'none' }} className='coursepage-heading' >Description</h1>
+            <p style={{margin:'16px'}} className='custom-text' >{lectures[lectureNumber].description}</p>
+          </div>
 
-          <VStack>
+          <div style={{display:'flex', flexDirection:'column' }} >
             {lectures.map((element, index) => (
               <button
                 onClick={() => setLectureNumber(index)}
@@ -101,19 +102,19 @@ if (user.role !== "admin") {
                   borderBottom: '1px solid rgba(0,0,0,0.2)',
                 }}
               >
-                <Text noOfLines={1}>
-                  #{index + 1} {element.title}
-                </Text>
+                <p onClick={()=>setWatching(index)} style={{ whiteSpace:'nowrap' , fontWeight:'500' , textOverflow:'ellipsis' , backgroundColor: (watching === index) ?  "lightgreen" : 'lightblue' }} className='custom-text' >
+                   #{index + 1} {element.title}
+                </p>
+
               </button>
             ))}
-          </VStack>
+          </div>
         </>
         ) : 
-        <Heading children="No Lectures" />
+        <h1 style={{margin:'16px' , textTransform:'none' }} className='coursepage-heading' >No Lectures</h1>
       }
-    </Grid>
+    </div>
       )
-
     )
 
  

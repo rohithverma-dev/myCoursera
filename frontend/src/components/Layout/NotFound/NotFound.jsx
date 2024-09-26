@@ -1,19 +1,18 @@
-import { Button, Container, Heading, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   return (
-    <Container h="90vh">
-      <VStack justifyContent={'center'} h="full" spacing={'4'}>
+    <div style={{height:'90vh'}} >
+      <div style={{display:'flex' , flexDirection:'column' , justifyContent:'center' , alignItems:'center' , gap:'16px' , height:'100%'  }} justifyContent={'center'} >
         <RiErrorWarningFill size={'5rem'} />
-        <Heading>Page Not Found</Heading>
+        <h1 style={{textTransform:'none'}} className='profile-section-heading' >Page Not Found</h1>
         <Link to="/">
-          <Button variant={'ghost'}>Go to home</Button>
+          <button className='button-lg' style={{backgroundColor:'transparent'}} >Go to home</button>
         </Link>
-      </VStack>
-    </Container>
+      </div>
+    </div>
   );
 };
 

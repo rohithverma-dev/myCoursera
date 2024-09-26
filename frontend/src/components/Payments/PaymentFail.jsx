@@ -1,19 +1,19 @@
-import { Button, Container, Heading, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import './payment-section.css';
 
 const PaymentFail = () => {
   return (
-    <Container h="90vh">
-      <VStack justifyContent={'center'} h="full" spacing={'4'}>
+    <div className="payment-section-container">
+      <div style={{display:'flex' , flexDirection:'column' , alignItems:'center' , justifyContent:'center' , height:'100%' , gap:'16px' }} >
         <RiErrorWarningFill size={'5rem'} />
-        <Heading textTransform={'uppercase'}>Payment Fail</Heading>
+        <h1 className='payment-section-heading' >Payment Fail</h1>
         <Link to="/subscribe">
-          <Button variant={'ghost'}>Try Again</Button>
+          <button className='button-lg' style={{backgroundColor:'transparent'}} > Try Again </button>
         </Link>
-      </VStack>
-    </Container>
+      </div>
+    </div>
   );
 };
 

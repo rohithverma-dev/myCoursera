@@ -1,0 +1,97 @@
+.courses-button-lg {
+    color: #7442E9;
+    background-color: #f2f8ff;
+    font-weight: 401;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 20px;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.courses-button-lg:hover {
+    background-color: #E2E8F0;
+}
+
+
+.courses-grid {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.courses-box {
+    padding: 32px;
+}
+
+.payment-section-heading {
+    text-transform: uppercase;
+    margin: 64px 0;
+    text-align: left;
+    font-weight: bolder;
+    font-size: 2.25rem;
+}
+
+.payment-section-custom-input {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.payment-section-custom-input:focus {
+    border: 1.5px solid #e2e8f0;
+    border-color: #7732c1;
+}
+
+.payment-section-custom-input::placeholder {
+    color: #798492;
+}
+
+.payment-section-custom-input:required {
+    box-shadow: none;
+}
+
+.payment-section-container {
+    width: 50%;
+    margin: auto;
+    min-height: 90vh;
+    padding: 64px 0;
+}
+
+.payment-section-vstack{
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* similar to 'lg' */
+        border-radius: 8px; /* similar to 'lg' borderRadius */
+        gap: 0; /* same as spacing="0" */
+}
+
+
+
+
+
+
+@media screen and (max-width:600px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .courses-box {
+        padding: 0;
+    }
+
+    .payment-section-heading {
+        text-align: center;
+        font-size: 1.85rem;
+    }
+
+    .payment-section-container {
+        width: 100%;
+        padding: 64px 32px;
+    }
+}

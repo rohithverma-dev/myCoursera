@@ -1,0 +1,131 @@
+/* #E2E8F0 */
+/* #EDF2F7 */
+
+.courses-button-lg {
+    color: #7442E9;
+    background-color: #f2f8ff;
+    font-weight: 401;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 20px;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.courses-button-lg:hover {
+    background-color: #E2E8F0;
+}
+
+.courses-category-button{
+    color: black;
+    font-weight: bolder;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 5px;
+    font-size: 18px;
+    background-color: #EDF2F7;
+}
+
+.courses-category-button:hover{
+    background-color: #E2E8F0;
+}
+
+.courses-grid {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.courses-box {
+    padding: 32px;
+}
+
+.courses-heading {
+    text-transform: uppercase;
+    margin: 64px 0;
+    text-align: left;
+    font-weight: bolder;
+    font-size: 2.25rem;
+}
+
+.courses-custom-input {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.courses-custom-input:focus {
+    border: 1.5px solid #e2e8f0;
+    border-color: #B7791F;
+}
+
+.courses-custom-input::placeholder {
+    color: #798492;
+}
+
+.courses-custom-input:required {
+    box-shadow: none;
+}
+
+.courses-container {
+    min-height: 95vh;
+    max-width: 1024px; /* Adjust based on your design */
+    margin: 0 auto; /* Centers the container */
+    padding: 32px 0; 
+}
+
+
+.courses-vstack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.courses-stack {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+
+
+
+
+
+
+@media screen and (max-width:600px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .courses-box {
+        padding: 0;
+    }
+
+    .courses-heading {
+        text-align: center;
+        font-size: 1.85rem;
+    }
+
+    .courses-container {
+        width: 100%;
+        padding: 64px 32px;
+    }
+
+    .courses-vstack {
+        align-items: center;
+    }
+
+    .courses-stack {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}

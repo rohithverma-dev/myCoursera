@@ -7,13 +7,11 @@
     padding: 8px 20px;
     font-size: 18px;
     margin-right: 10px;
-    
 }
 
 .createcourse-button-lg:hover {
     background-color: #E2E8F0;
 }
-
 
 .createcourse-grid {
     min-height: 100vh;

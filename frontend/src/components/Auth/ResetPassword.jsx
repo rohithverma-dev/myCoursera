@@ -1,26 +1,24 @@
-import { Button, Container, Heading, Input, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { resetPassword } from '../../redux/actions/profile';
-
+import Loader from '../../CustomComponents/Loader/Loader';
 
 const ResetPassword = () => {
   const { loading, message, error } = useSelector(state => state.profile);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const params = useParams();
-  const navigate = useNavigate();   
+  const navigate = useNavigate();
 
   const submitHandler = e => {
     e.preventDefault();
-    console.log("reset password Submitt handler");
-    dispatch(resetPassword(params.token , password));
+    console.log('reset password Submitt handler');
+    dispatch(resetPassword(params.token, password));
     // navigate("/login")
   };
-
 
   useEffect(() => {
     if (error) {
@@ -34,36 +32,33 @@ const ResetPassword = () => {
   }, [dispatch, error, message]);
 
   return (
-    <Container py={'16'} h="90vh">
+      
+    <div className='forgotpassword-container'  >
       <form onSubmit={submitHandler}>
-        <Heading
-          children="Reset Password"
-          my="16"
-          textTransform={'uppercase'}
-          textAlign={['center', 'left']}
-        />
+        <h1 style={{margin:'64px 0'}} autoFocus={true} className='custom-heading-xl'>Reset Password</h1>
 
-        <VStack spacing={'8'}>
-          <Input
+        <div style={{display:'flex' , flexDirection:'column' , gap: '32px' }} spacing={'8'}>
+          
+          <input 
             required
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="New Password"
             type={'password'}
-            focusBorderColor="yellow.500"
+            className='custom-input'
           />
 
-          <Button
-            isLoading={loading}
+          <button
+            disabled={loading ? true : false}
             type="submit"
-            w={'full'}
-            colorScheme="yellow"
+            className="button-lg"
           >
-            Reset Password
-          </Button>
-        </VStack>
+            {loading ? <Loader /> : 'Reset Password'}
+          </button>
+
+        </div>
       </form>
-    </Container>
+    </div>
   );
 };
 

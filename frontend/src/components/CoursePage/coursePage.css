@@ -1,0 +1,49 @@
+.coursepage-button-lg {
+    color: #7442E9;
+    background-color: #f2f8ff;
+    font-weight: 401;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 20px;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.coursepage-button-lg:hover {
+    background-color: #E2E8F0;
+}
+
+
+.coursepage-grid {
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.coursepage-box {
+    padding: 32px;
+}
+
+.coursepage-heading {
+    text-transform: uppercase;
+    margin: 64px 0;
+    text-align: left;
+    font-weight: bolder;
+    font-size: 2.25rem;
+}
+
+
+
+@media screen and (max-width:600px) {
+    .coursepage-grid {
+        grid-template-columns: 1fr;
+    }
+    .coursepage-box {
+        padding: 0;
+    }
+    .coursepage-heading {
+        text-align: center;
+        font-size: 1.95rem;
+    }
+
+}

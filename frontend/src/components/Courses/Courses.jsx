@@ -1,14 +1,3 @@
-import {
-  Button,
-  Container,
-  Heading,
-  HStack,
-  Image,
-  Input,
-  Stack,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +5,8 @@ import { getAllCourses } from '../../redux/actions/course';
 import toast from 'react-hot-toast';
 import { addToPlaylist } from '../../redux/actions/profile';
 import { loadUser } from '../../redux/actions/user';
+import './courses.css';
+import Loader from '../../CustomComponents/Loader/Loader';
 
 const Course = ({
   views,
@@ -29,54 +20,81 @@ const Course = ({
   loading,
 }) => {
   return (
-    <VStack className="course" alignItems={['center', 'flex-start']}>
-      <Image src={imageSrc} boxSize="60" objectFit={'contain'} />
-      <Heading
-        textAlign={['center', 'left']}
-        maxW="200px"
-        size={'sm'}
-        fontFamily={'sans-serif'}
-        noOfLines={3}
-        children={title}
-      />
-      <Text noOfLines={2} children={description} />
-      <HStack>
-        <Text
-          fontWeight={'bold'}
-          textTransform="uppercase"
-          children={'Creator'}
-        />
-        <Text
-          fontFamily={'body'}
-          textTransform="uppercase"
-          children={creator}
-        />
-      </HStack>
-      <Heading
-        textAlign={'center'}
-        size="xs"
-        children={`Lectures - ${lectureCount}`}
-        textTransform="uppercase"
-      />
-      <Heading
-        size="xs"
-        children={`Views - ${views}`}
-        textTransform="uppercase"
-      />
-      <Stack direction={['column', 'row']} alignItems="center">
+    <div
+      style={{ gap: '5px', marginBottom: '32px' }}
+      className="courses-vstack"
+      alignItems={['center', 'flex-start']}
+    >
+      <img src={imageSrc} style={{height:240 , width:240 , objectFit:'contain' }} alt="" />
+      <h1
+        style={{
+          maxWidth: '200px',
+          margin: '0',
+          textTransform: 'none',
+          fontSize: '1rem',
+        }}
+        className="courses-heading"
+      >
+        {title}
+      </h1>
+      <p style={{ margin: '0' }}>{description}</p>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          marginTop: '0.5rem',
+          gap: '1rem',
+        }}
+      >
+        <p style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+          {'Creator'}
+        </p>
+        <p style={{ textTransform: 'uppercase' }}>{creator}</p>
+      </div>
+
+      <h1
+        style={{ fontSize: '0.85rem', fontWeight: 'bolder', margin: '0' }}
+        className="courses-heading"
+      >{`Lectures - ${lectureCount}`}</h1>
+
+      <h1
+        style={{ fontSize: '0.85rem', fontWeight: 'bolder', margin: '0' }}
+        className="courses-heading"
+      >{`Views - ${views}`}</h1>
+
+      <div
+        className="courses-stack"
+        direction={['column', 'row']}
+        alignItems="center"
+      >
         <Link to={`/course/${id}`}>
-          <Button colorScheme={'yellow'}>Watch Now</Button>
+          <button
+            style={{
+              fontSize: '0.95rem',
+              padding: '8px 11px',
+              fontWeight: 'bold',
+            }}
+            className="button-lg"
+          >
+            Watch Now
+          </button>
         </Link>
-        <Button
-          isLoading={loading}
-          variant={'ghost'}
-          colorScheme={'yellow'}
+
+        <button
+          className="button-lg"
+          style={{
+            padding: '8px 11px',
+            fontSize: '1rem',
+            backgroundColor: 'transparent',
+            color: '#B7791F',
+          }}
+          disabled={loading ? true : false}
           onClick={() => addToPlaylistHandler(id)}
         >
-          Add to playlist
-        </Button>
-      </Stack>
-    </VStack>
+          {loading ? <Loader color="#B7791F" /> : 'Add to playlist'}
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -118,40 +136,38 @@ const Courses = () => {
   }, [category, keyword, dispatch, error, message]);
 
   return (
-    <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
-      <Heading children="All Courses" m={'8'} />
+    <div className="courses-container">
+      <h1
+        className="courses-heading"
+        style={{ margin: '32px', textAlign: 'left' }}
+      >
+        All Courses
+      </h1>
 
-      <Input
+      <input
         value={keyword}
         onChange={e => setKeyword(e.target.value)}
         placeholder="Search a course..."
         type={'text'}
-        focusBorderColor="yellow.500"
+        className="courses-custom-input"
       />
 
-      <HStack
-        overflowX={'auto'}
-        paddingY="8"
-        // css={{
-        //   '&::-webkit-scrollbar': {
-        //     display: 'none',
-        //   },
-        // }}
+      <div 
+        style={{
+          display:'flex' ,
+          overflowX:'auto' ,
+          padding : '32px' ,
+          gap:'16px',
+        }}
       >
         {categories.map((item, index) => (
-          <Button key={index} onClick={() => setCategory(item)} minW={'60'}>
-            <Text children={item} />
-          </Button>
+          <button style={{minWidth:'240px', whiteSpace:'nowrap' }} className='courses-category-button' key={index} onClick={() => setCategory(item)} >
+            <p>{item}</p>
+          </button>
         ))}
-      </HStack>
+      </div>
 
-
-      <Stack
-        direction={['column', 'row']}
-        flexWrap="wrap"
-        justifyContent={['flex-start', 'space-evenly']}
-        alignItems={['center', 'flex-start']}
-      >
+      <div className='courses-stack' >
         {courses.length > 0 ? (
           courses.map(item => (
             <Course
@@ -168,10 +184,12 @@ const Courses = () => {
             />
           ))
         ) : (
-          <Heading mt="4" children="Courses Not Found" />
+          <h1 className="courses-heading" style={{ marginTop: '64px' }}>
+            Courses Not Found
+          </h1>
         )}
-      </Stack>
-    </Container>
+      </div>
+    </div>
   );
 };
 
