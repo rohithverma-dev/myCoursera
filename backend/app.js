@@ -35,7 +35,6 @@ app.use("/api/v1", user);
 app.use("/api/v1", payment);
 app.use("/api/v1", other);
 
-export default app;
 
 app.get("/", (req, res) =>
   res.send(
@@ -44,3 +43,5 @@ app.get("/", (req, res) =>
 );
 
 app.use(ErrorMiddleware);
+
+export default app;
