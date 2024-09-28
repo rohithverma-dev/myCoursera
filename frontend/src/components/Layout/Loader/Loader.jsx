@@ -11,12 +11,12 @@ const Loader = ({ color = '#ECC94B' }) => {
       <div style={{ transform: 'scale(4)', width: 'fit-content', height: 'fit-content' }}>
         <div
           style={{
-            border: '2px solid transparent',
-            borderTopColor: color,
+            border: `3px solid ${color}`,
+            borderTopColor: "transparent",
             borderRadius: '50%',
             width: '2rem',
             height: '2rem',
-            animation: 'spin 0.35s linear infinite'
+            animation: 'spin 0.8s linear infinite'
           }}
         />
       </div>

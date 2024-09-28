@@ -4,8 +4,8 @@ import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/actions/user';
 
-const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
-  <Link onClick={onClose} to={url}>
+const LinkButton = ({ url = '/', title = 'Home',  setHeadermodal }) => (
+  <Link onClick={()=>setHeadermodal(false)} to={url}>
     <button
       style={{
         whiteSpace: 'nowrap',
@@ -51,8 +51,8 @@ const Header = ({ isAuthenticated = false, user }) => {
         onClick={()=>setHeadermodal(true)}
         style={{
           fontWeight: 'bold',
-          width: '12',
-          height: '12',
+          width: '48px',
+          height: '48px',
           borderRadius: '45px',
           position: 'fixed',
           top: '24px',
@@ -85,6 +85,7 @@ const Header = ({ isAuthenticated = false, user }) => {
               right: '0',
               bottom: '0',
               backdropFilter: 'blur(2px)',
+              backgroundColor:'rgba(0,0,0 , 0.5 )' ,
               position: 'fixed',
               zIndex: '2',
             }}
@@ -95,7 +96,7 @@ const Header = ({ isAuthenticated = false, user }) => {
               width: '320px',
               height: '100vh',
               boxShadow: ' 0 4px 6px rgba(0, 0, 0, 0.2)',
-              backgroundColor: 'rgb(255, 251, 235 )' ,
+              backgroundColor: 'rgb(255, 251, 233 )' ,
               position:'relative'  ,
               zIndex:'10' ,
               borderWidth:'1px'
@@ -128,27 +129,32 @@ const Header = ({ isAuthenticated = false, user }) => {
                 }}
               >
                 <LinkButton
-                  onClick={() => setHeadermodal(false)}
+              
                   url="/"
+                  setHeadermodal = {setHeadermodal}
                   title="Home"
                 />
                 <LinkButton
-                  onClick={() => setHeadermodal(false)}
+                
                   url="/courses"
                   title="Browse All Courses"
+              setHeadermodal = {setHeadermodal}
                 />
                 <LinkButton
-                  onClick={() => setHeadermodal(false)}
+              
                   url="/request"
+                  setHeadermodal = {setHeadermodal}
                   title="Request a Course"
                 />
                 <LinkButton
-                  onClick={() => setHeadermodal(false)}
+              
+                  setHeadermodal = {setHeadermodal}
                   url="/contact"
                   title="Contact Us"
-                />
+                  />
                 <LinkButton
-                  onClick={() => setHeadermodal(false)}
+                setHeadermodal = {setHeadermodal}
+                
                   url="/about"
                   title="About"
                 />
@@ -208,6 +214,7 @@ const Header = ({ isAuthenticated = false, user }) => {
                         {user && user.role === 'admin' && (
                           <Link
                             onClick={() => setHeadermodal(false)}
+                            style={{textDecoration:'none'}}
                             to="/admin/dashboard"
                           >
                             <button

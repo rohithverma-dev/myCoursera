@@ -3,6 +3,7 @@ import { profileReducer, subscriptionReducer, userReducer } from "./reducers/use
 import { courseReducer } from "./reducers/courseReducer"
 import { adminReducer } from "./reducers/adminReducer"
 import { otherReducer } from "./reducers/otherReducer"
+import { BACKEND_URL } from "../AllUrls"
 const store = configureStore({ 
     reducer:{ 
         user:userReducer,
@@ -13,7 +14,7 @@ const store = configureStore({
         other: otherReducer,
     }
 })
-export default store   
-export const server = "http://localhost:4000/api/v1"
-// export const server = "https://backend-video-streaming-courses.onrender.com/api/v1"
+export default store ;
+
+export const server = `${BACKEND_URL}/api/v1`; 
 

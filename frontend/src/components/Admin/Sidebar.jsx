@@ -51,10 +51,10 @@ export default Sidebar;
 
 function LinkButton({ url, Icon, text, active }) {
   return (
-    <Link to={`/admin/${url}`}>
+    <Link style={{textDecoration:'none'}} to={`/admin/${url}`}>
       <button
         className='admin-sidebar-button'
-        style={{ color:  active ? '#6B46C1' : '' }}
+        style={{ color:  active ? '#6B46C1' : '' , backgroundColor:'transparent'  }}
       >
         <Icon style={{ margin: '4px' }} />
         {text}
